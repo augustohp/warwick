@@ -1,0 +1,5 @@
+# ~/.bash_profile_osx
+#
+# Author: Augusto Pascutti <augusto@phpsp.org.br>
+
+alias ls="ls -G"
