@@ -3,3 +3,8 @@
 # Author: Augusto Pascutti <augusto@phpsp.org.br>
 
 alias ls="ls -G"
+
+# Homebrew bash-completion support
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
