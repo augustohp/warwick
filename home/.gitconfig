@@ -1,5 +1,30 @@
-[alias]
-	s = status
 [user]
 	name = Augusto Pascutti
 	email = augusto@phpsp.org.br
+[core]
+	editor = vim
+[color]
+	ui = true
+	branch = auto
+	diff = auto
+	status = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow 
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[alias]
+	co = checkout
+	s = status --short
+	br = branch
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+[push]
+	default = current
