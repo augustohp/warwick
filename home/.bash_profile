@@ -2,7 +2,7 @@
 # 
 # Author: Augusto Pascutti <augusto@phpsp.org.br>
 
-# Non-interactive shellsskip this =D
+# Non-interactive shells skip this =D
 [ -z "$PS1" ] && return
 
 # Special .bash_profile for OSX
@@ -18,3 +18,21 @@ fi;
 
 alias l='ls'
 alias ll='ls -laht'
+alias sudo='sudo env PATH=$PATH'
+
+# User specific environment and startup programs
+git_parse_dirty()
+{
+    test "$(git diff HEAD --name-only  2>/dev/null 2>&1)" \
+        && echo " *"
+}
+ 
+git_branch_name()
+{
+    git branch 2>/dev/null \
+      | grep -e "^*" \
+      | cut -d "_" -f 1 \
+      | sed -E "s/^\* (.+)$/(\1$(git_parse_dirty)) /"
+}
+ 
+PS1="\u [\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
