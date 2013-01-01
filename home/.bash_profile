@@ -6,12 +6,12 @@
 [ -z "$PS1" ] && return
 
 # Special .bash_profile for OSX
-if [$(uname) == "Darwin"]; then
-    source .bash_profile_osx
+if [ $(uname) == "Darwin" ]; then
+    source ~/.bash_profile_osx
 fi;
 
 # If humanshell/phpenv is installed, use it
-if [-f "$HOME/.phpenv]; then
+if [ -f "$HOME/.phpenv" ]; then
 	export PATH="$HOME/.phpenv/bin:$PATH"
 	eval "$(phpenv init -)"
 fi;
@@ -36,3 +36,4 @@ git_branch_name()
 }
  
 PS1="\u [\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
+export PS1
