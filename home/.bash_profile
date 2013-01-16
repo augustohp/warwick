@@ -10,12 +10,19 @@ PHPENV_PATH="$HOME/.phpenv/bin"
 # Special .bash_profile for OSX
 if [ $(uname) == "Darwin" ]; then
     source .bash_profile_osx
+elif [ $(uname) == "Linux" ]; then
+	source .bash_profile_ubuntu
 fi;
 
 # If humanshell/phpenv is installed, use it
 if [ -d $PHPENV_PATH ]; then
 	export PATH="$PHPENV_PATH:$PATH"
 	eval "$(phpenv init -)"
+fi;
+
+# Search for a binary path inside home
+if [ -d "$HOME/bin" ]; then
+	export PATH="$HOME/bin:$PATH"
 fi;
 
 alias l='ls'
