@@ -9,13 +9,16 @@ PHPENV_PATH="$HOME/.phpenv/bin"
 
 # Special .bash_profile for OSX
 if [ $(uname) == "Darwin" ]; then
+    echo 'Loading custom OSX configuration ...';
     source ~/.bash_profile_osx
 elif [ $(uname) == "Linux" ]; then
+    echo 'Loading custom LINUX configuration ...'
     source ~/.bash_profile_ubuntu
 fi;
 
 # If humanshell/phpenv is installed, use it
 if [ -d $PHPENV_PATH ]; then
+    echo "PHPENV loaded ...";
 	export PATH="$PHPENV_PATH:$PATH"
 	eval "$(phpenv init -)"
 fi;
@@ -44,9 +47,4 @@ git_branch_name()
       | sed -E "s/^\* (.+)$/(\1$(git_parse_dirty)) /"
 }
  
-<<<<<<< HEAD
-PS1="\u [\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
-export PS1
-=======
 export PS1="[\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
->>>>>>> 9a5e3bc3f8d29dc0938720f287d8714adf286415

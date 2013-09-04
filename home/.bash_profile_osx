@@ -9,4 +9,4 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 
-export PATH="/usr/local/Cellar/ruby/1.9.3-p327/bin:$PATH"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/local/Cellar/ruby/1.9.3-p327/bin:$PATH"
