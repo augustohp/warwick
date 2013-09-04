@@ -1,0 +1,44 @@
+" ~/.vimrc
+"
+" @author Augusto Pascutti
+
+" Pathogen
+call pathogen#infect('plugins')
+
+" Globals
+"
+set noswapfile
+filetype indent plugin on
+syn on
+set sm 			    " show matching brackets
+set ts=4 		    " tab stop
+set et			    " expand tabs
+retab			    " converts existing tabs
+set ruler		    " shows ruler
+"set laststatus=1	" lines of status
+set nosmartindent	" 
+set visualbell		" visual bell
+set sw=4		    " shift width (>)
+set wildmode=longest,list:full
+set guioptions=aAce
+
+" Color scheme options
+"
+set bg=dark
+let g:molokai_original = 1
+set t_Co=256
+colorscheme twilight 
+
+" Custom syntaxes
+
+
+" Map keys
+map <C-q> :q!<CR>
+map <C-s> :w<CR>
+map <D-S-]> :tabn<CR>
+map <D-S-[> :tabp<CR>
+map <C-T> :NERDTree<CR> 
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
