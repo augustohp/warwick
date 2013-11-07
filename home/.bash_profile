@@ -28,9 +28,11 @@ if [ -d "$HOME/bin" ]; then
 	export PATH="$HOME/bin:$PATH"
 fi;
 
+# Because I am a lazy guy....
 alias l='ls'
 alias ll='ls -laht'
 alias sudo='sudo env PATH=$PATH'
+alias sl="sl -F"
 
 # User specific environment and startup programs
 git_parse_dirty()
@@ -48,3 +50,4 @@ git_branch_name()
 }
  
 export PS1="[\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
+export GREP_OPTIONS="--color"
