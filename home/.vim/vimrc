@@ -21,6 +21,9 @@ set visualbell      " visual bell
 set sw=4            " shift width (>)
 set wildmode=longest,list:full
 set guioptions=aAce
+set cursorline      " highlugh current line
+set number          " show line numbers (gutter-like)
+set colorcolumn=80
 
 " Color scheme options
 "
