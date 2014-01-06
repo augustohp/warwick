@@ -1,0 +1,9 @@
+# ~/.bash_environment
+#
+# Author: Augusto Pascutti <augusto@phpsp.org.br>
+# Part of http://github.com/augustohp/warwick
+
+echo 'Environment variables';
+
+export GREP_OPTIONS="--color"
+export EDITOR=vim

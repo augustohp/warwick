@@ -1,6 +1,10 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# ~/.bashrc: 
+#
+# See /usr/share/doc/bash/examples/startup-files
+# Based on default Debian's ~/.bashrc
+# Part of http://github.com/augustohp/warwick
+
+echo 'Ubuntu (Linux) profile loaded';
 
 # If not running interactively, don't do anything
 case $- in
@@ -83,11 +87,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

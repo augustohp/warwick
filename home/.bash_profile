@@ -1,26 +1,32 @@
 # ~/.bash_profile
 # 
 # Author: Augusto Pascutti <augusto@phpsp.org.br>
+# Part of http://github.com/augustohp/warwick
 
-PHPENV_PATH="$HOME/.phpenv/bin"
+echo 'General profile.'
 
 # Non-interactive shells skip this =D
 [ -z "$PS1" ] && return
 
 # Special .bash_profile for OSX
 if [ $(uname) == "Darwin" ]; then
-    echo 'Loading custom OSX configuration ...';
     source ~/.bash_profile_osx
 elif [ $(uname) == "Linux" ]; then
-    echo 'Loading custom LINUX configuration ...'
     source ~/.bash_profile_ubuntu
 fi;
 
 # If humanshell/phpenv is installed, use it
+PHPENV_PATH="$HOME/.phpenv/bin"
 if [ -d $PHPENV_PATH ]; then
-    echo "PHPENV loaded ...";
+    echo "PHPENV loaded.";
 	export PATH="$PHPENV_PATH:$PATH"
 	eval "$(phpenv init -)"
+fi;
+
+# If c9s/phpbrew is installed, use it
+if [ -d $PHPBREW_PATH ]; then
+    echo "PHPBrew loaded."
+    source /Users/apascutti/.phpbrew/bashrc
 fi;
 
 # Search for a binary path inside home
@@ -32,7 +38,7 @@ fi;
 alias l='ls'
 alias ll='ls -laht'
 alias sudo='sudo env PATH=$PATH'
-alias sl="sl -F"
+alias sl="ls"
 
 # User specific environment and startup programs
 git_parse_dirty()
@@ -50,4 +56,4 @@ git_branch_name()
 }
  
 export PS1="[\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
-export GREP_OPTIONS="--color"
+source $HOME/.bash_environment
