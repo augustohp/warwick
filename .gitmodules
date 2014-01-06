@@ -31,3 +31,9 @@
 [submodule "home/.vim/bundle/solarized"]
 	path = home/.vim/bundle/solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "home/.vim/bundle/tpope-dispatch"]
+	path = home/.vim/bundle/tpope-dispatch
+	url = https://github.com/tpope/vim-dispatch.git
+[submodule "home/.vim/bundle/tpope-fugitive"]
+	path = home/.vim/bundle/tpope-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
