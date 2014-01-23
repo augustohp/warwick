@@ -15,7 +15,7 @@ set ts=4            " tab stop
 set et              " expand tabs
 retab               " converts existing tabs
 set ruler           " shows ruler
-"set laststatus=1   " lines of status
+set laststatus=1   " lines of status
 set nosmartindent   " 
 set visualbell      " visual bell
 set sw=4            " shift width (>)
@@ -27,8 +27,9 @@ set number          " show line numbers (gutter-like)
 " Color scheme options
 "
 set bg=dark
-set t_Co=256
+"set t_Co=256
 colorscheme solarized
+let g:airline_powerline_fonts = 1 " vim-airline use of patched fonts.
 
 " Custom syntaxes
 
