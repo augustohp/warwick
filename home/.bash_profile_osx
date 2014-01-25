@@ -8,8 +8,10 @@ echo "OSX (Darwin) profile.";
 alias ls="ls -G"
 
 # Homebrew bash-completion support
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
+BASH_COMPLETION_SOURCE=$(brew --prefix)/etc/bash_completion
+if [ -f $BASH_COMPLETION_SOURCE ]; then
+    echo "Bash completion enabled.";
+    . $BASH_COMPLETION_SOURCE
 fi
 
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
