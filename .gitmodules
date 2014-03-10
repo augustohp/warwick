@@ -37,3 +37,6 @@
 [submodule "home/.vim/bundle/tpope-fugitive"]
 	path = home/.vim/bundle/tpope-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "home/.vim/bundle/wildfire"]
+	path = home/.vim/bundle/wildfire
+	url = git@github.com:gcmt/wildfire.vim.git
