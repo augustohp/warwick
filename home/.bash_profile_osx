@@ -15,3 +15,4 @@ if [ -f $BASH_COMPLETION_SOURCE ]; then
 fi
 
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
+export DOCKER_HOST=localhost

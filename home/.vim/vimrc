@@ -7,6 +7,7 @@ call pathogen#infect()
 
 " Globals
 "
+set hlsearch
 set noswapfile
 filetype indent plugin on
 syn on
@@ -16,7 +17,7 @@ set et              " expand tabs
 retab               " converts existing tabs
 set ruler           " shows ruler
 set laststatus=1   " lines of status
-set nosmartindent   " 
+set nosmartindent   "
 set visualbell      " visual bell
 set sw=4            " shift width (>)
 set wildmode=longest,list:full
@@ -24,9 +25,13 @@ set guioptions=aAce
 set cursorline      " highlugh current line
 set number          " show line numbers (gutter-like)
 
+" For the lazy
+"
+autocmd BufWritePre * :%s/\s\+$//e " Removes whitespace on write. (Because I am tired of feeling a badass doing that)
+
 " Color scheme options
 "
-set bg=dark
+set bg=light
 "set t_Co=256
 colorscheme solarized
 let g:airline_powerline_fonts = 1 " vim-airline use of patched fonts.
@@ -38,7 +43,7 @@ let g:airline_powerline_fonts = 1 " vim-airline use of patched fonts.
 map <C-e> :PHPClassExplorer<CR>
 map <C-q> :q!<CR>
 map <C-s> :w<CR>
-map <C-T> :NERDTreeTabsToggle<CR> 
+map <C-T> :NERDTreeTabsToggle<CR>
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
