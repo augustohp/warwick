@@ -13,6 +13,7 @@ map <C-n> :NERDTreeToggle<CR>
 
 " Globals
 "
+set incsearch
 set hlsearch
 set noswapfile
 filetype indent plugin on
