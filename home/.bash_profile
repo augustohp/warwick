@@ -1,5 +1,5 @@
 # ~/.bash_profile
-# 
+#
 # Author: Augusto Pascutti <augusto@phpsp.org.br>
 # Part of http://github.com/augustohp/warwick
 
@@ -24,7 +24,7 @@ if [ -d $PHPENV_PATH ]; then
 fi;
 
 # If c9s/phpbrew is installed, use it
-if [ -d $PHPBREW_PATH ]; then
+if [[ -d $PHPBREW_PATH ]]; then
     echo "PHPBrew loaded."
     source /Users/apascutti/.phpbrew/bashrc
 fi;
@@ -46,7 +46,7 @@ git_parse_dirty()
     test "$(git diff HEAD --name-only  2>/dev/null 2>&1)" \
         && echo " *"
 }
- 
+
 git_branch_name()
 {
     git branch 2>/dev/null \
@@ -54,6 +54,6 @@ git_branch_name()
       | cut -d "_" -f 1 \
       | sed -E "s/^\* (.+)$/(\1$(git_parse_dirty)) /"
 }
- 
+
 export PS1="[\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
 source $HOME/.bash_environment
