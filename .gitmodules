@@ -46,3 +46,6 @@
 [submodule "home/.vim/bundle/tabline"]
 	path = home/.vim/bundle/tabline
 	url = git@github.com:mkitt/tabline.vim.git
+[submodule "home/.vim/bundle/vim-twig"]
+	path = home/.vim/bundle/vim-twig
+	url = git@github.com:evidens/vim-twig.git
