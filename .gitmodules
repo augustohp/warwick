@@ -49,3 +49,12 @@
 [submodule "home/.vim/bundle/vim-twig"]
 	path = home/.vim/bundle/vim-twig
 	url = git@github.com:evidens/vim-twig.git
+[submodule "home/.vim/bundle/vim-coffee-script"]
+	path = home/.vim/bundle/vim-coffee-script
+	url = https://github.com/kchmck/vim-coffee-script.git
+[submodule "home/.vim/bundle/vim-ansible-syntax"]
+	path = home/.vim/bundle/vim-ansible-syntax
+	url = git@github.com:chase/vim-ansible-yaml.git
+[submodule "home/.vim/bundle/jin2-syntax"]
+	path = home/.vim/bundle/jin2-syntax
+	url = git@github.com:Glench/Vim-Jinja2-Syntax.git
