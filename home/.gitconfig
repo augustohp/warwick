@@ -1,47 +1,49 @@
 [user]
-	name = Augusto Pascutti
-	email = augusto@phpsp.org.br
+    name = Augusto Pascutti
+    email = augusto@phpsp.org.br
 [core]
-	editor = vim
+    editor = vim
 [color]
-	ui = true
-	branch = auto
-	diff = auto
-	status = auto
+    ui = true
+    branch = auto
+    diff = auto
+    status = auto
 [color "branch"]
-	current = green
-	local = blue bold
-	remote = blue
+    current = green
+    local = blue bold
+    remote = blue
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
 [color "status"]
-	added = green
-	changed = yellow
-	untracked = cyan
+    added = green
+    changed = yellow
+    untracked = cyan
 [alias]
-	co = checkout
-	s = status --short
-	br = branch
-	hist = log --pretty=format:\"%C(green)%h%Creset %C(black)%cr%Creset %s %C(auto)%d%Creset %C(blue)%an%Creset\"
-	d = diff --color-words
-	go = checkout
-	l = log --stat
-	forget = reset --hard HEAD
-	undo = reset HEAD
+    co = checkout
+    s = status --short
+    br = branch
+    hist = log --pretty=format:\"%C(green)%h%Creset %C(black)%cr%Creset %s %C(auto)%d%Creset %C(blue)%an%Creset\"
+    d = diff --color-words
+    go = checkout
+    l = log --stat
+    forget = reset --hard HEAD
+    undo = reset HEAD
+    review = diff --color-words --cached
+    o-que-mudou = diff --color-words HEAD^
 [push]
-	default = current
+    default = current
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path =
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.localized/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = /Applications/SourceTree.localized/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
 [rebase]
-	autosquash = true
+    autosquash = true
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [merge]
-	tool = vimdiff
+    tool = vimdiff
