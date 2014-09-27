@@ -8,6 +8,8 @@ echo 'General profile.'
 # Non-interactive shells skip this =D
 [ -z "$PS1" ] && return
 
+source $HOME/.bash_environment
+
 # Special .bash_profile for OSX
 if [ $(uname) == "Darwin" ]; then
     source ~/.bash_profile_osx
@@ -16,7 +18,6 @@ elif [ $(uname) == "Linux" ]; then
 fi;
 
 # If humanshell/phpenv is installed, use it
-PHPENV_PATH="$HOME/.phpenv/bin"
 if [ -d $PHPENV_PATH ]; then
     echo "PHPENV loaded.";
 	export PATH="$PHPENV_PATH:$PATH"
@@ -32,6 +33,11 @@ fi;
 # Search for a binary path inside home
 if [ -d "$HOME/bin" ]; then
 	export PATH="$HOME/bin:$PATH"
+fi;
+
+# Add heroku toolbelt
+if [ -d "$HEROKU_TOOLBET_PATH" ]; then
+    export PATH="$HEROKU_TOOLBET_PATH:$PATH"
 fi;
 
 # Because I am a lazy guy....
@@ -56,4 +62,3 @@ git_branch_name()
 }
 
 export PS1="[\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
-source $HOME/.bash_environment
