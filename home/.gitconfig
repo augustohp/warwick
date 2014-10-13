@@ -3,6 +3,7 @@
     email = augusto@phpsp.org.br
 [core]
     editor = vim
+	excludesfile = /Users/apascutti/.gitignore_global
 [color]
     ui = true
     branch = auto
@@ -13,10 +14,10 @@
     local = blue bold
     remote = blue
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+    meta = yellow
+    frag = magenta
+    old = red
+    new = green
 [color "status"]
     added = green
     changed = yellow
@@ -25,12 +26,14 @@
     co = checkout
     s = status --short
     br = branch
-    hist = log --pretty=format:\"%C(green)%h%Creset %C(black)%cr%Creset %s %C(auto)%d%Creset %C(blue)%an%Creset\"
+    ls = log --pretty=format:\"%C(green)%h%Creset %C(black)%cr%Creset %s %C(auto)%d%Creset %C(blue)%an%Creset\"
     d = diff --color-words
     go = checkout
     l = log --stat
     forget = reset --hard HEAD
     undo = reset HEAD
+    new = checkout -b
+    cleanup = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs git branch -d; }; f"
     review = diff --color-words --cached
     o-que-mudou = diff --color-words HEAD^
 [push]
