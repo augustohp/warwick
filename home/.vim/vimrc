@@ -3,6 +3,8 @@
 " @author Augusto Pascutti
 
 " Pathogen
+"
+"teste
 execute pathogen#infect()
 set nocompatible
 filetype plugin indent on
@@ -41,4 +43,10 @@ autocmd BufWritePre * :%s/\s\+$//e " Removes whitespace on write. (Because I am 
 set bg=dark
 set t_Co=256
 colorscheme solarized
+
+" Cosmetic plugin configuration
+"
 let g:airline_powerline_fonts = 1
+let g:gitgutter_sign_column_always = 1
+let g:gitgutter_enabled = 1
+let g:gitgutter_signs = 1

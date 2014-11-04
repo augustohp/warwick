@@ -64,3 +64,6 @@
 [submodule "home/.vim/bundle/airline-tmuxline"]
 	path = home/.vim/bundle/airline-tmuxline
 	url = git@github.com:edkolev/tmuxline.vim.git
+[submodule "home/.vim/bundle/gitgutter"]
+	path = home/.vim/bundle/gitgutter
+	url = git@github.com:airblade/vim-gitgutter.git
