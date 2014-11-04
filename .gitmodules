@@ -58,3 +58,9 @@
 [submodule "home/.vim/bundle/syntax-jinja2"]
 	path = home/.vim/bundle/syntax-jinja2
 	url = git@github.com:Glench/Vim-Jinja2-Syntax.git
+[submodule "home/.vim/bundle/airline"]
+	path = home/.vim/bundle/airline
+	url = git@github.com:bling/vim-airline
+[submodule "home/.vim/bundle/airline-tmuxline"]
+	path = home/.vim/bundle/airline-tmuxline
+	url = git@github.com:edkolev/tmuxline.vim.git

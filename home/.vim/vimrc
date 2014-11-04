@@ -23,7 +23,7 @@ set ts=4            " tab stop
 set et              " expand tabs
 retab               " converts existing tabs
 set ruler           " shows ruler
-set laststatus=1   " lines of status
+set laststatus=2   " lines of status
 set nosmartindent   "
 set visualbell      " visual bell
 set sw=4            " shift width (>)
@@ -41,3 +41,4 @@ autocmd BufWritePre * :%s/\s\+$//e " Removes whitespace on write. (Because I am 
 set bg=dark
 set t_Co=256
 colorscheme solarized
+let g:airline_powerline_fonts = 1
