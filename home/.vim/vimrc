@@ -18,6 +18,7 @@ map <C-n> :NERDTreeToggle<CR>
 set incsearch
 set hlsearch
 set noswapfile
+set exrc
 filetype indent plugin on
 syn on
 set sm              " show matching brackets
