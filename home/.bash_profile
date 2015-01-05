@@ -27,7 +27,7 @@ fi;
 # If c9s/phpbrew is installed, use it
 if [ -d $PHPBREW_PATH ]; then
     echo "PHPBrew loaded."
-    source /Users/apascutti/.phpbrew/bashrc
+    source "$PHPBREW_PATH/bashrc"
 fi;
 
 # Search for a binary path inside home
