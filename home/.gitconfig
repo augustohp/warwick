@@ -27,9 +27,9 @@
     s = status --short
     br = branch
     ls = log --pretty=format:\"%C(green)%h%Creset %C(black)%cr%Creset %s %C(auto)%d%Creset %C(blue)%an%Creset\"
+    l = log --pretty=format:\"%h | %cr | %s | %d | %an\"
     d = diff --color-words
     go = checkout
-    l = log --stat
     forget = reset --hard HEAD
     undo = reset HEAD
     new = checkout -b
@@ -38,12 +38,6 @@
     o-que-mudou = diff --color-words HEAD^
 [push]
     default = current
-[difftool "sourcetree"]
-    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-    path =
-[mergetool "sourcetree"]
-    cmd = /Applications/SourceTree.localized/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-    trustExitCode = true
 [rebase]
     autosquash = true
 [diff]
