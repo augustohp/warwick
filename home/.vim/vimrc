@@ -4,7 +4,6 @@
 
 " Pathogen
 "
-"teste
 execute pathogen#infect()
 set nocompatible
 filetype plugin indent on
@@ -19,7 +18,6 @@ set incsearch
 set hlsearch
 set noswapfile
 set exrc
-filetype indent plugin on
 syn on
 set sm              " show matching brackets
 set ts=4            " tab stop
@@ -43,6 +41,7 @@ autocmd BufWritePre * :%s/\s\+$//e " Removes whitespace on write. (Because I am 
 "
 set bg=dark
 set t_Co=256
+let g:solarized_termcolors=256
 colorscheme solarized
 
 " Cosmetic plugin configuration

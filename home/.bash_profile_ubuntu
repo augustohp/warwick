@@ -8,6 +8,9 @@ echo 'Ubuntu (Linux) profile loaded';
 
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+alias tmux='tmux -2'
+GTK_IM_MODULE=cedilla
+QT_IM_MODULE=cedilla
 
 # If not running interactively, don't do anything
 case $- in
