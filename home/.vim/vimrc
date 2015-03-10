@@ -16,7 +16,6 @@ map <C-n> :NERDTreeToggle<CR>
 "
 set incsearch
 set hlsearch
-set noswapfile
 set exrc
 syn on
 set sm              " show matching brackets
