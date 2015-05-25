@@ -1,2 +1,5 @@
 .vimrc
 *.swp
+*.swo
+*.swn
+.ant-targets-build.xml
