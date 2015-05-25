@@ -1,6 +1,5 @@
 [user]
     name = Augusto Pascutti
-    email = augusto@phpsp.org.br
 [core]
     editor = vim
 	excludesfile = /Users/apascutti/.gitignore_global
@@ -48,3 +47,5 @@
 	postBuffer = 65536000
 [credential]
 	helper = cache --timeout=86400
+[include]
+    path = ~/.gitconfig_local
