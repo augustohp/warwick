@@ -7,9 +7,6 @@
 [submodule "home/.vim/bundle/sensible"]
 	path = home/.vim/bundle/sensible
 	url = git://github.com/tpope/vim-sensible.git
-[submodule "home/.vim/bundle/markdown"]
-	path = home/.vim/bundle/markdown
-	url = https://github.com/tpope/vim-markdown.git
 [submodule "home/.vim/bundle/surround"]
 	path = home/.vim/bundle/surround
 	url = https://github.com/tpope/vim-surround.git
@@ -67,3 +64,6 @@
 [submodule "home/.vim/bundle/gitgutter"]
 	path = home/.vim/bundle/gitgutter
 	url = git@github.com:airblade/vim-gitgutter.git
+[submodule "home/.vim/bundle/gf-markdown"]
+	path = home/.vim/bundle/gf-markdown
+	url = git://github.com/jtratner/vim-flavored-markdown.git
