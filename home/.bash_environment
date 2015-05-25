@@ -5,6 +5,8 @@
 
 echo 'Environment variables';
 
+set -o vi
+
 export GREP_OPTIONS="--color"
 export EDITOR="vim"
 export PHPBREW_PATH="${HOME}/.phpbrew"
