@@ -46,6 +46,7 @@ alias l='ls'
 alias ll='ls -laht'
 alias sudo='sudo env PATH=$PATH'
 alias sl="ls"
+alias pcat="pygmentize -f terminal256 -O style=native -g"
 
 # User specific environment and startup programs
 git_parse_dirty()
