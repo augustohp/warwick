@@ -67,3 +67,6 @@
 [submodule "home/.vim/bundle/gf-markdown"]
 	path = home/.vim/bundle/gf-markdown
 	url = git://github.com/jtratner/vim-flavored-markdown.git
+[submodule "home/.vim/bundle/syntax-bats"]
+	path = home/.vim/bundle/syntax-bats
+	url = https://github.com/vim-scripts/bats.vim
