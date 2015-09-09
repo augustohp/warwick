@@ -4,3 +4,4 @@
 *.swn
 .ant-targets-build.xml
 .gitconfig_local
+phpunit.xml
