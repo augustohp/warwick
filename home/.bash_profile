@@ -63,4 +63,3 @@ git_branch_name()
       | sed -E "s/^\* (.+)$/(\1$(git_parse_dirty)) /"
 }
 
-export PS1="[\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
