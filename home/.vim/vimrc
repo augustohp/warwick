@@ -38,7 +38,7 @@ autocmd BufWritePre * :%s/\s\+$//e " Removes whitespace on write. (Because I am 
 
 " Color scheme options
 "
-set background=dark
+set background=light
 set t_Co=256
 let g:solarized_termcolors=256
 colorscheme solarized
