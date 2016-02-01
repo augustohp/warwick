@@ -9,7 +9,6 @@ set nocompatible
 filetype plugin indent on
 
 " Map keys
-map <C-e> :PHPClassExplorer<CR>
 map <C-n> :NERDTreeToggle<CR>
 
 " Globals
@@ -32,9 +31,6 @@ set guioptions=aAce
 set cursorline      " highlugh current line
 set number          " show line numbers (gutter-like)
 set backspace=indent,eol,start
-" For the lazy
-"
-autocmd BufWritePre * :%s/\s\+$//e " Removes whitespace on write. (Because I am tired of feeling a badass doing that)
 
 " Color scheme options
 "
