@@ -1,5 +1,8 @@
 [user]
     name = Augusto Pascutti
+[ssup]
+    ignoreremote = prs
+    ignoreremote = john
 [core]
     editor = vim
 	excludesfile = /Users/apascutti/.gitignore_global
@@ -35,6 +38,7 @@
     cleanup = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs git branch -d; }; f"
     review = diff --color-words --cached
     o-que-mudou = diff --color-words HEAD^
+    wip = ls-files -o -m --exclude-standard
 [push]
     default = current
 [rebase]

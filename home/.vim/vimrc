@@ -36,7 +36,7 @@ set backspace=indent,eol,start
 "
 set background=dark
 set t_Co=256
-colorscheme solarized
+colorscheme twilight256
 
 " Cosmetic plugin configuration
 "
