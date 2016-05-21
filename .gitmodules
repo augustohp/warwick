@@ -70,3 +70,6 @@
 [submodule "home/.vim/bundle/syntax-bats"]
 	path = home/.vim/bundle/syntax-bats
 	url = https://github.com/vim-scripts/bats.vim
+[submodule "home/.vim/bundle/vim-copy-as-rtf"]
+	path = home/.vim/bundle/vim-copy-as-rtf
+	url = git@github.com:zerowidth/vim-copy-as-rtf.git
