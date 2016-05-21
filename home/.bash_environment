@@ -9,7 +9,7 @@ set -o vi
 
 export EDITOR="vim"
 export PHPBREW_PATH="${HOME}/.phpbrew"
-export GOPATH="${HOME}/Projects/go"
+export GOPATH="${HOME}"
 PHPENV_PATH="$HOME/.phpenv/bin"
 export HEROKU_TOOLBET_PATH="/usr/local/heroku/bin"
 export PS1="[\u@\h:\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
