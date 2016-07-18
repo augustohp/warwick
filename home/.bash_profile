@@ -25,7 +25,7 @@ if [ -d $PHPENV_PATH ]; then
 fi;
 
 # If c9s/phpbrew is installed, use it
-if [ -d $PHPBREW_PATH ]; then
+if [ -d "$PHPBREW_PATH" ]; then
     source "$PHPBREW_PATH/bashrc"
     PHPBREW_VERSION="$(phpbrew info | head -n 2 | tail -n 1)"
     echo "PHPBrew loaded. (${PHPBREW_VERSION})"
