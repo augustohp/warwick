@@ -53,3 +53,5 @@
 	helper = cache --timeout=86400
 [include]
     path = ~/.gitconfig_local
+[commit]
+	verbose = true
