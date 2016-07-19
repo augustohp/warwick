@@ -1,8 +1,9 @@
 # ~/.bash_profile_osx
 #
-# Author: Augusto Pascutti <augusto@phpsp.org.br>
+# Author Augusto Pascutti <augusto.hp@gmail.com>
+# Part of http://github.com/augustohp/warwick
 
-echo "OSX (Darwin) profile.";
+echo "OSX specifics ...";
 
 # Bash aliases
 alias ls="ls -G"
@@ -14,4 +15,5 @@ if [ -f $BASH_COMPLETION_SOURCE ]; then
     . $BASH_COMPLETION_SOURCE
 fi
 
+# Prefer Homebrew binaries
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH"

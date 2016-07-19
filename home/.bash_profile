@@ -1,28 +1,24 @@
 # ~/.bash_profile
 #
-# Author: Augusto Pascutti <augusto@phpsp.org.br>
+# Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 
-echo 'General profile.'
+echo 'Loading warwick ...'
 
 # Non-interactive shells skip this =D
 [ -z "$PS1" ] && return
 
 source $HOME/.bash_environment
 
-# Special .bash_profile for OSX
-if [ $(uname) == "Darwin" ]; then
+if [ $(uname) == "Darwin" ];
+then
     source ~/.bash_profile_osx
-elif [ $(uname) == "Linux" ]; then
+elif [ $(uname) == "Linux" ]
+then
     source ~/.bash_profile_ubuntu
-fi;
+fi
 
-# If humanshell/phpenv is installed, use it
-if [ -d $PHPENV_PATH ]; then
-    echo "PHPENV loaded.";
-	export PATH="$PHPENV_PATH:$PATH"
-	eval "$(phpenv init -)"
-fi;
+source ~/.bash_aliases
 
 # If c9s/phpbrew is installed, use it
 if [ -d "$PHPBREW_PATH" ]; then
@@ -41,12 +37,6 @@ if [ -d "$HEROKU_TOOLBET_PATH" ]; then
     export PATH="$HEROKU_TOOLBET_PATH:$PATH"
 fi;
 
-# Because I am a lazy guy....
-alias l='ls'
-alias ll='ls -laht'
-alias sudo='sudo env PATH=$PATH'
-alias sl="ls"
-alias pcat="pygmentize -f terminal256 -O style=native -g"
 
 # User specific environment and startup programs
 git_parse_dirty()

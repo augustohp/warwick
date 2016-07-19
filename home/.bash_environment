@@ -1,15 +1,23 @@
 # ~/.bash_environment
 #
-# Author: Augusto Pascutti <augusto@phpsp.org.br>
+# Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 
-echo 'Environment variables';
+echo 'Setting up environment ...';
 
+# History control. bash(1)
+HISTCONTROL=ignoreboth # avoid duplicated lines and spaced started ones
+shopt -s histappend # append to the history file
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+shopt -s checkwinsize
+
+# VIM everywhere
 set -o vi
-
 export EDITOR="vim"
+
 export PHPBREW_PATH="${HOME}/.phpbrew"
 export GOPATH="${HOME}"
-PHPENV_PATH="$HOME/.phpenv/bin"
 export HEROKU_TOOLBET_PATH="/usr/local/heroku/bin"
 export PS1="[\u@\h:\w] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
