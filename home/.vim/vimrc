@@ -10,6 +10,7 @@ filetype plugin indent on
 
 " Map keys
 map <C-n> :NERDTreeToggle<CR>
+nnoremap <leader>s :grep! "\b<C-R><C-W>\b"<CR>:copen<CR>
 
 " Globals
 "
@@ -44,6 +45,15 @@ let g:airline_powerline_fonts = 1
 let g:gitgutter_sign_column_always = 1
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
+
+" The silver searcher
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepformat=%f:%l:%c%m
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
+endif
+
 " Use Github Flavoured markdown by default on markdown files
 augroup markdown
     au!
