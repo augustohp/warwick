@@ -17,3 +17,18 @@ fi
 
 # Prefer Homebrew binaries
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
+
+# Fixes `pbcopy` on `tmux` for macosSierra
+# https://github.com/tmux/tmux/issues/543#issuecomment-248980734
+TMUX=$(which tmux)
+HOMEBREW=$(which brew)
+if [ ! -z "$TMUX" -a ! -z "$HOMEBREW" ]
+then
+	required_formula=reattach-to-user-namespace
+	NEEDS_FIXING=$($HOMEBREW ls | grep $required_formula)
+	if [ -z "$NEEDS_FIXING" ]
+	then
+		echo "Installing fix to pbcopy on tmux..."
+		$HOMEBREW install $required_formula
+	fi
+fi
