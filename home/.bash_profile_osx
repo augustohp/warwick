@@ -3,10 +3,7 @@
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 
-echo "OSX specifics ...";
-
-# Bash aliases
-alias ls="ls -G"
+echo "macOS specifics ...";
 
 # Homebrew bash-completion support
 BASH_COMPLETION_SOURCE=$(brew --prefix)/etc/bash_completion
@@ -32,3 +29,6 @@ then
 		$HOMEBREW install $required_formula
 	fi
 fi
+
+alias awk=gawk
+alias ls="ls -G"
