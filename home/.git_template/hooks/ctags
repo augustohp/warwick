@@ -1,0 +1,15 @@
+# http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html
+
+set -e
+dir="$(git rev-parse --git-dir)"
+TAG_FILE="$dir/$$.ctags"
+TAG_FILE_TMP="${TAG_FILE}.new"
+
+trap 'rm -f "${TAG_FILE_TMP}"' EXIT
+
+git ls-files | \
+	ctags --tag-relative -L - -f "${TAG_FILE_TMP}" --languages=-javascript,sql
+	mv "${TAG_FILE_TMP}" "${TAG_FILE}"
+
+
+# vim: set noet ts=4 sw=4 ft=sh:

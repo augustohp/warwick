@@ -39,6 +39,7 @@
     review = diff --color-words --cached
     o-que-mudou = diff --color-words HEAD^
     wip = ls-files -o -m --exclude-standard
+    ctags = !.git/hooks/ctags
 [push]
     default = current
 [rebase]
@@ -55,3 +56,5 @@
     path = ~/.gitconfig_local
 [commit]
 	verbose = true
+[init]
+	templatedir = ~/.git_template
