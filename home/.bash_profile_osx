@@ -5,15 +5,23 @@
 
 echo "macOS specifics ...";
 
-# Homebrew bash-completion support
-BASH_COMPLETION_SOURCE=$(brew --prefix)/etc/bash_completion
-if [ -f $BASH_COMPLETION_SOURCE ]; then
-    echo "Bash completion enabled.";
-    . $BASH_COMPLETION_SOURCE
+# Installs [homebrew][]
+if [ -z "$(which brew)" ]
+then
+	echo "Installing homebrew ..."
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	echo "Installing bash completion ..."
+	brew install bash-completion
+	brew tap homebrew/completions
 fi
 
-# Prefer Homebrew binaries
+# [homebrew][] bash-completion support
+source $(brew --prefix)/etc/bash_completion
+
+# Prefer [homebrew][] binaries
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
+# Makes [phpbrew][] reconize [homebrew][]
+export PHPBREW_LOOKUP_PREFIX=$(brew --prefix)
 
 # Fixes `pbcopy` on `tmux` for macosSierra
 # https://github.com/tmux/tmux/issues/543#issuecomment-248980734
@@ -32,3 +40,6 @@ fi
 
 alias awk=gawk
 alias ls="ls -G"
+
+# [phpbrew]: https://github.com/phpbrew/phpbrew "Like pipenv, rubenv, nvm, but for PHP: Manage multiple PHP versions"
+# [homebrew]: https://brew.sh/ "The closest thing to an apt-get on a macOS"
