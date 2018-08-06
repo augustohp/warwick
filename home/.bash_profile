@@ -53,3 +53,11 @@ git_branch_name()
       | sed -E "s/^\* (.+)$/(\1$(git_parse_dirty)) /"
 }
 
+# Homeshick -------------------------------------------------------------------
+export HOMESHICK_DIR="${HOME}/.homesick/repos/homeshick"
+if [ -d "${HOMESHICK_DIR}" ]
+then
+	echo "Loading Homeshick..."
+	source "${HOMESHICK_DIR}/homeshick.sh"
+fi
+
