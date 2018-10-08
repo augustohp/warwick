@@ -1,11 +1,9 @@
 [user]
     name = Augusto Pascutti
-[ssup]
-    ignoreremote = prs
-    ignoreremote = john
+	email = augusto.hp@gmail.com
 [core]
     editor = vim
-	excludesfile = /Users/apascutti/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [color]
     ui = true
     branch = auto
@@ -28,8 +26,8 @@
     co = checkout
     s = status --short
     br = branch
-    ls = log --pretty=format:\"%C(green)%h%Creset %C(black)%cr%Creset %s %C(auto)%d%Creset %C(blue)%an%Creset\"
-    l = log --pretty=format:\"%h | %cr | %s | %d | %an\"
+    ls = log --pretty=format:\"%h %s (%an, %cr)\"
+    l = log --pretty=format:\"%h | %s | %d | %an | %cr\"
     d = diff --color-words
     go = checkout
     forget = reset --hard HEAD
@@ -52,9 +50,9 @@
 	postBuffer = 65536000
 [credential]
 	helper = cache --timeout=86400
-[include]
-    path = ~/.gitconfig_local
 [commit]
 	verbose = true
-[init]
-	templatedir = ~/.git_template
+
+; Specific configuration for work-related repositories
+[includeIf "gitdir:~/src/creditas.com.br/**"]
+    path = ~/.gitconfig_creditas

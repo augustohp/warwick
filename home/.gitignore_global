@@ -6,3 +6,4 @@
 .gitconfig_local
 phpunit.xml
 .ctags
+.DS_Store
