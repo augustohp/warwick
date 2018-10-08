@@ -13,9 +13,6 @@ source $HOME/.bash_environment
 if [ $(uname) == "Darwin" ];
 then
     source ~/.bash_profile_osx
-elif [ $(uname) == "Linux" ]
-then
-    source ~/.bash_profile_ubuntu
 fi
 
 source ~/.bash_aliases
