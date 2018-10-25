@@ -58,3 +58,5 @@ then
 	source "${HOMESHICK_DIR}/homeshick.sh"
 fi
 
+export SDKMAN_DIR="/home/augusto/.sdkman"
+[[ -s "/home/augusto/.sdkman/bin/sdkman-init.sh" ]] && source "/home/augusto/.sdkman/bin/sdkman-init.sh"
