@@ -1,5 +1,0 @@
-[user]
-    email = augusto.pascutti@creditas.com.br
-    signingkey = ACF58ED04876F887
-[commit]
-    gpgSign = true

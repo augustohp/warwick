@@ -62,3 +62,4 @@ export SDKMAN_DIR="/home/augusto/.sdkman"
 [[ -s "/home/augusto/.sdkman/bin/sdkman-init.sh" ]] && source "/home/augusto/.sdkman/bin/sdkman-init.sh"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+[[ -f "$HOME/.bashrc_creditas" ]] && source "$HOME/.bashrc_creditas"
