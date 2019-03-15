@@ -52,7 +52,5 @@
 	helper = cache --timeout=86400
 [commit]
 	verbose = true
-
-; Specific configuration for work-related repositories
-[includeIf "gitdir:~/src/creditas.com.br/**"]
-    path = ~/.gitconfig_creditas
+[includeIf "gitdir:~/src/gadle.it/"]
+    path = ~/.gitconfig_gadle
