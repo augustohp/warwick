@@ -13,20 +13,7 @@ alias c="clear"
 alias ..="cd .."
 alias .-="cd -"
 
-composer ()
-{
-	local command=${1:-}
-	local params=""
-	shift
-	if [ "${command}" == "install" ] || [ "${command}" == "update" ]
-	then
-		params="--no-interaction --ignore-platform-reqs --no-scripts"
-	fi
-
-	docker run --rm \
-		--volume "${PWD}:/app" \
-		--volume "${COMPOSER_HOME:-$HOME/.docker-compose}" \
-		composer ${command} ${params} $@
-}
-
-
+if [ "$(uname)" == "Darwin" ]
+then
+	alias sed=gsed
+fi
