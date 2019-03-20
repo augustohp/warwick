@@ -2,8 +2,14 @@
 #
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
+# vim: noet ts=4 sw=4 ft=sh:
 
 echo 'Setting up environment ...';
+
+export PHPBREW_PATH="${HOME}/.phpbrew"
+export GOPATH="${HOME}"
+export HEROKU_TOOLBET_PATH="/usr/local/heroku/bin"
+export PS1="[\u@\h:\W] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
 
 # History control. bash(1)
 HISTCONTROL=ignoreboth # avoid duplicated lines and spaced started ones
@@ -17,7 +23,13 @@ shopt -s checkwinsize
 set -o vi
 export EDITOR="vim"
 
-export PHPBREW_PATH="${HOME}/.phpbrew"
-export GOPATH="${HOME}"
-export HEROKU_TOOLBET_PATH="/usr/local/heroku/bin"
-export PS1="[\u@\h:\W] \$(type git_branch_name &>/dev/null && git_branch_name)$ "
+
+# Enable SSH agent
+if [ ! -z "$(command -v ssh-agent)" ]
+then
+    if [ -z "$SSH_AUTH_SOCK" ]
+    then
+        echo "  Starting ssh-agent..."
+        eval `ssh-agent` > /dev/null
+    fi
+fi
