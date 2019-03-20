@@ -15,6 +15,11 @@ then
     source ~/.bash_profile_osx
 fi
 
+if [ ! -z "$(grep 'Microsoft' /proc/version)" ]
+then
+	source ~/.bash_profile_wsl
+fi
+
 source ~/.bash_aliases
 
 # If c9s/phpbrew is installed, use it
