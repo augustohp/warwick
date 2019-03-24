@@ -20,7 +20,14 @@ then
 	source ~/.bash_profile_wsl
 fi
 
-source ~/.bash_aliases
+alias l='ls'
+alias ll='ls -laht'
+alias sudo="sudo env PATH=\"${PATH}\"" # keep current binaries
+alias sl="ls"
+alias pcat="pygmentize -f terminal256 -O style=native -g"
+alias c="clear"
+alias ..="cd .."
+alias .-="cd -"
 
 # If c9s/phpbrew is installed, use it
 if [ -d "$PHPBREW_PATH" ]; then

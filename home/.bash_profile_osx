@@ -39,6 +39,7 @@ then
 fi
 
 alias awk=gawk
+alias sed=gsed
 alias ls="ls -G"
 
 # [phpbrew]: https://github.com/phpbrew/phpbrew "Like pipenv, rubenv, nvm, but for PHP: Manage multiple PHP versions"
