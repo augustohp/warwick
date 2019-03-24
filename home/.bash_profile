@@ -13,9 +13,7 @@ source $HOME/.bash_environment
 if [ $(uname) == "Darwin" ];
 then
     source ~/.bash_profile_osx
-fi
-
-if [ ! -z "$(grep 'Microsoft' /proc/version)" ]
+elif [ ! -z "$(grep 'Microsoft' /proc/version)" ]
 then
 	source ~/.bash_profile_wsl
 fi
