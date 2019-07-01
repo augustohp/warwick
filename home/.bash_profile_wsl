@@ -10,6 +10,7 @@ export WSL_HOME="$(pwd)"
 export WSL_DIR_DOWNLOADS="${HOME}/Downloads"
 export WSL_DIR_SRC="${HOME}/src"
 export WSL_DIR_DESKTOP="${HOME}/Desktop"
+export PS1="[\u@\h:\W]$ "
 
 if [ ! -d "$WSL_DIR_DOWNLOADS" ]
 then
