@@ -16,7 +16,15 @@ then
 fi
 
 # [homebrew][] bash-completion support
-source $(brew --prefix)/etc/bash_completion
+old_bash_completion_script="$(brew --prefix)/etc/bash_completion"
+new_bash_completion_script="$(brew --prefix)/etc/profile.d/bash_completion.sh"
+if [ -f "$old_bash_completion_script" ]
+then
+	source "$old_bash_completion_script"
+elif [ -f "$new_bash_completion_script" ]
+then
+	source "$new_bash_completion_script"
+fi
 
 # Prefer [homebrew][] binaries
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
