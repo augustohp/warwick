@@ -10,9 +10,8 @@ if [ -z "$(which brew)" ]
 then
 	echo "Installing homebrew ..."
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	echo "Installing bash completion ..."
-	brew install bash-completion
-	brew tap homebrew/completions
+	echo "Installing base packages using brew ..."
+	brew install ag awscli bash bash-completion gawk git gnu-sed gpg terraform tree vim 
 fi
 
 # [homebrew][] bash-completion support
