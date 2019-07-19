@@ -52,7 +52,5 @@
 	helper = cache --timeout=86400
 [commit]
 	verbose = true
-[includeIf "gitdir:~/src/gadle.it/"]
-    path = ~/.gitconfig_gadle
 [includeIf "gitdir:**/src/kobold.com.br/"]
     path = ~/.gitconfig_kobold
