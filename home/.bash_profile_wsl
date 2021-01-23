@@ -3,24 +3,25 @@
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 
-echo "Loading Windows Subsystem for Linux..."
+echo "Loading WSL..."
 
-export DOCKER_HOST=tcp://127.0.0.1:2375
-export WSL_HOME="$(pwd)"
+WIN_HOME_RAW="$(cmd.exe /c "<nul set /p=%UserProfile%" 2>/dev/null)"
+export WSL_HOME="$(wslpath $WIN_HOME_RAW)"
 export WSL_DIR_DOWNLOADS="${HOME}/Downloads"
 export WSL_DIR_SRC="${HOME}/src"
 export WSL_DIR_DESKTOP="${HOME}/Desktop"
-export PS1="[\u@\h:\W]$ "
+export PS1="\W $ "
+export GIT="$(command -v git.exe)"
 
 if [ ! -d "$WSL_DIR_DOWNLOADS" ]
 then
-	echo "  Link Downloads folder to $HOME"
+	echo "  Linking Downloads folder to $HOME"
 	ln -s "${WSL_HOME}/Downloads" "${WSL_DIR_DOWNLOADS}"
 fi
 
 if [ ! -d "$WSL_DIR_DESKTOP" ]
 then
-	echo "  Link Desktop folder to $HOME"
+	echo "  Linking Desktop folder to $HOME"
 	ln -s "${WSL_HOME}/Desktop" "${WSL_DIR_DESKTOP}"
 fi
 
@@ -31,6 +32,82 @@ then
 	then
 		mkdir "${source_path}"
 	fi
-	echo "  Link 'src' folder to $HOME"
+	echo "  Linking 'src' folder to $HOME"
 	ln -s "${source_path}" "${WSL_DIR_SRC}"
 fi
+
+# -----------------------------------------------------------------------------
+#                                                                           Git
+# Multiple fixes to make Git usable under WSL.
+
+# Copies Git configuration files from the User's /home directory to %UserHome%
+# on Windows.
+# Usage: warwick_wsl_sync_git
+warwick_wsl_sync_git()
+{
+	for config in "${HOME}"/.git*
+	do 
+		config_filename="$(basename $config)"
+		existing_configuration="${WSL_HOME}/${config_filename}" 
+		if [ -f "$existing_configuration" ]
+		then
+			echo "  Backing up '${existing_configuration}' to '${existing_configuration}.bkp'..."
+			mv "${existing_configuration}" "${existing_configuration}.bkp"
+		fi
+		echo "  Copying '${config_filename}' from '${HOME}' to '${WSL_HOME}'"
+		if [ -d "$config" ]
+		then
+			cp -r "$config" "${WSL_HOME}/${config_filename}"
+		else
+			cp "$config" "${WSL_HOME}/${config_filename}"
+		fi
+	done
+}
+
+# Copies all SHH folder content from user /home to %UserHome% so Git on Windows
+# has access to the same keys.
+# Usage: warwick_wsl_sync_ssh
+warwick_wsl_sync_ssh()
+{
+	WIN_SSH_DIR="${WSL_HOME}/.ssh"
+	echo "  Copying '.ssh' from '${HOME}' to '${WSL_HOME}"
+	if [ ! -d "${WIN_SSH_DIR}" ]
+	then
+		mkdir "${WIN_SSH_DIR}"
+	fi
+	cp "${HOME}/.ssh/"* "${WIN_SSH_DIR}/"
+}
+
+warwick_wsl_git_motd()
+{
+	echo "  Using git.exe with configuration from:"
+	git config --list --show-origin \
+		| cut -f1 \
+		| sed 's/file://' \
+		| sort \
+		| uniq \
+		| sed 's/^/    - /'
+}
+
+if [ ! -d "${WSL_HOME}/.ssh" ]
+then
+	# If "%UserHome%/.ssh" doesn't exist, copy it from /home
+	warwick_wsl_sync_ssh
+fi
+
+if [ ! -f "${WSL_HOME}/.gitignore_global" ]
+then
+	# If "%UserHome%/.gitignore_global" doesn't exist, copy it from /home
+	warwick_wsl_sync_git
+fi
+
+# Prefer Windows binary of Git for performance reasons, this will replace any
+# existing `git` command call for `git.exe`. This will cause confusion as the
+# configuration loaded will be the one from the %UserHome%.
+# Usage: git <subcommand> [options]
+git()
+{
+	git.exe "$@"
+}
+
+warwick_wsl_git_motd
