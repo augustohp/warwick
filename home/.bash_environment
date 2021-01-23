@@ -6,10 +6,11 @@
 
 echo 'Setting up environment ...';
 
+export TERM=vt100
 export PHPBREW_PATH="${HOME}/.phpbrew"
 export GOPATH="${HOME}"
 export HEROKU_TOOLBET_PATH="/usr/local/heroku/bin"
-export PS1="\W \$(type git_branch_name &>/dev/null && git_branch_name)$ "
+export PS1="\W $ "
 export LC_ALL=en_US.UTF-8
 
 # History control. bash(1)
