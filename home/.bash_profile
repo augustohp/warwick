@@ -73,3 +73,33 @@ export SDKMAN_DIR="/home/augusto/.sdkman"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -f "$HOME/.bashrc_creditas" ]] && source "$HOME/.bashrc_creditas"
+
+# Zoxide -----------------------------------------------------------------------
+# https://github.com/ajeetdsouza/zoxide
+
+if [ -n "$(command -v zoxide)" ]
+then
+	eval "$(zoxide init bash)"
+fi
+
+# Will add recent directories to zoxide database
+# Usage: zoxide_feed
+zoxide_feed()
+{
+	for d in `history | grep 'cd' | awk '{ print $3}' | sort | uniq`
+	do 
+		test -d "$d" && { z "$d"; z -; }
+	done
+}
+
+
+# Node Version Mamager (NVM) ----------------------------------------------------
+# https://nodecli.com/nodejs-nvm
+
+export NVM_DIR="$HOME/.nvm"
+if [ -z "$NVM_DIR/nvm.sh" ]
+then
+	echo "Loading nvm..."
+	source "$NVM_DIR/nvm.sh"
+	source "$NVM_DIR/bash_completion"
+fi
