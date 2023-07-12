@@ -1,0 +1,14 @@
+# ~/.bash_profile_pi
+#
+# Author Augusto Pascutti <augusto.hp@gmail.com>
+# Part of http://github.com/augustohp/warwick
+
+echo "Loading RaspberryPi..."
+
+# Rootless docker
+export PATH=/usr/bin:$PATH
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+
+# Kubernetes
+export K3S_KUBECONFIG_MODE="644"
+export INSTALL_K3S_EXEC=" --no-deploy servicelb --no-deploy traefik"

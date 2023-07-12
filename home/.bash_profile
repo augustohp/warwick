@@ -16,6 +16,9 @@ then
 elif [ ! -z "$(grep 'microsoft' /proc/version)" ]
 then
 	source ~/.bash_profile_wsl
+elif [ ! -z "$(uname -a | grep aarch64)" ]
+then
+	source ~/.bash_profile_pi
 fi
 
 alias l='ls'
