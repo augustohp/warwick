@@ -29,6 +29,10 @@ alias pcat="pygmentize -f terminal256 -O style=native -g"
 alias c="clear"
 alias ..="cd .."
 alias .-="cd -"
+alias k="kubectl"
+alias kt="kubetail"
+alias kc="kubectx"
+alias g="git"
 
 # If c9s/phpbrew is installed, use it
 if [ -d "$PHPBREW_PATH" ]; then
