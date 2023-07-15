@@ -2,16 +2,25 @@
 #
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
+# vim: ft=sh:
 
 echo "Loading WSL..."
 
 WIN_HOME_RAW="$(cmd.exe /c "<nul set /p=%UserProfile%" 2>/dev/null)"
+if [ -z "$WIN_HOME_RAW" ]
+then
+	echo "Error: /mnt/c not available." >&2
+	echo "Try: ">&2
+	echo "  PS$ wsl.exe --shutdown"
+	return 1
+fi
+
 export WSL_HOME="$(wslpath $WIN_HOME_RAW)"
 export WSL_DIR_DOWNLOADS="${HOME}/Downloads"
 export WSL_DIR_SRC="${HOME}/src"
 export WSL_DIR_DESKTOP="${HOME}/Desktop"
 export PS1="\W $ "
-export GIT="$(command -v git.exe)"
+export WARWICK_OPTION_PREFER_GIT_WIN=""
 
 if [ ! -d "$WSL_DIR_DOWNLOADS" ]
 then
@@ -35,6 +44,12 @@ then
 	echo "  Linking 'src' folder to $HOME"
 	ln -s "${source_path}" "${WSL_DIR_SRC}"
 fi
+
+#------------------------------------------------------------------------------
+#                                                                       Aliases
+#
+
+alias ls="ls -GhcS --color=auto"
 
 # -----------------------------------------------------------------------------
 #                                                                           Git
@@ -105,9 +120,22 @@ fi
 # existing `git` command call for `git.exe`. This will cause confusion as the
 # configuration loaded will be the one from the %UserHome%.
 # Usage: git <subcommand> [options]
-git()
-{
-	git.exe "$@"
-}
+
+if [ -n "$WARWICK_OPTION_PREFER_GIT_WIN" ]
+then
+	git()
+	{
+		git.exe "$@"
+	}
+fi
 
 warwick_wsl_git_motd
+
+
+# -----------------------------------------------------------------------------
+#                                                                      X Server
+# 
+echo "  Export X-server (X410) configuration..."
+export DISPLAY="$(ip route | grep default | awk '{print $3; exit;}'):0.0"
+export LIBGL_ALWAYS_INDIRECT=1
+export GDK_SCALE=1
