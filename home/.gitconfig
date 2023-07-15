@@ -25,6 +25,7 @@
 [alias]
     co = checkout
     s = status --short
+    b = branch
     br = branch
     ls = log --pretty=format:\"%h %s (%an, %cr)\"
     l = log --pretty=format:\"%h | %s | %d | %an | %cr\"
@@ -32,6 +33,7 @@
     go = checkout
     forget = reset --hard HEAD
     undo = reset HEAD
+    pop = reset --hard HEAD^
     new = checkout -b
     cleanup = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs git branch -d; }; f"
     review = diff --color-words --cached
@@ -42,10 +44,6 @@
     default = current
 [rebase]
     autosquash = true
-[diff]
-    tool = vimdiff
-[merge]
-    tool = vimdiff
 [http]
 	postBuffer = 65536000
 [credential]
@@ -54,3 +52,5 @@
 	verbose = true
 [includeIf "gitdir:**/src/kobold.com.br/"]
     path = ~/.gitconfig_kobold
+[includeIf "gitdir:**/src/crawly.com.br/"]
+    path = ~/.gitconfig_crawly

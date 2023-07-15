@@ -1,0 +1,6 @@
+[core]
+    sshCommand = ssh -o IdentitiesOnly=yes -i ~/.ssh/id_rsa -F /dev/null
+[user]
+    email = augusto.pascutti@crawly.com.br
+[commit]
+    gpgSign = false
