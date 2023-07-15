@@ -100,9 +100,30 @@ zoxide_feed()
 # https://nodecli.com/nodejs-nvm
 
 export NVM_DIR="$HOME/.nvm"
-if [ -z "$NVM_DIR/nvm.sh" ]
+if [ -f "$NVM_DIR/nvm.sh" ]
 then
 	echo "Loading nvm..."
 	source "$NVM_DIR/nvm.sh"
 	source "$NVM_DIR/bash_completion"
+fi
+
+# Ruby Version manager (RVM) --------------------------------------------------
+# https://rvm.io/
+
+export RVM_DIR="$HOME/.rvm"
+RVM_SCRIPT="$RVM_DIR/scripts/rvm"
+if [ -f "$RVM_SCRIPT" ]
+then
+	echo "Loading rvm..."
+	source "$RVM_SCRIPT"
+fi
+
+# FZF (Fuzzy finder) ----------------------------------------------------------
+# https://github.com/junegunn/fzf
+
+FZF_SCRIPT="$HOME/.fzf.bash"
+if [ -f "$FZF_SCRIPT" ]
+then
+	echo "Loading fzf..."
+	source "$FZF_SCRIPT"
 fi
