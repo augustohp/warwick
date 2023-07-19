@@ -10,6 +10,14 @@ echo 'Loading warwick ...'
 
 source $HOME/.bash_environment
 
+# -----------------------------------------------------------------------------
+#                                                                            OS
+
+if [ -f "/etc/debian_version" ]
+then
+   source "$HOME/.bash_profile_debian"
+fi
+
 if [ $(uname) == "Darwin" ];
 then
     source ~/.bash_profile_osx

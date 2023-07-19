@@ -12,36 +12,6 @@ export GOPATH="${HOME}"
 export HEROKU_TOOLBET_PATH="/usr/local/heroku/bin"
 export PS1="\W $ "
 
-# Locale configuration
-expected_locale=en_US.UTF-8
-set_locale=0
-if [ -z "$(grep ^${expected_locale} /etc/locale.gen)" ]
-then
-    echo "Locale $expected_locale not generated."
-    read -p 'Generate it? (y/n) ' yesno
-    case "$yesno" in
-        y | yes | s)
-            sudo apt install -y -qq locales
-            lang="${expected_locale%%.*}"
-            charset="${expected_locale##$lang.}"
-            echo "Generating $lang ..."
-            sudo sh -c "echo \"$expected_locale $charset\" >> /etc/locale.gen"
-            sudo locale-gen
-            sudo update-locale LANG=$expected_locale
-            set_locale=1
-            ;;
-        *)
-            set_locale=0
-            ;;
-    esac
-else
-    set_locale=1
-fi
-if [ $set_locale -eq 1 ]
-then
-    export LC_ALL=en_US.UTF-8
-fi
-
 # History control. bash(1)
 HISTCONTROL=ignoreboth # avoid duplicated lines and spaced started ones
 shopt -s histappend # append to the history file
