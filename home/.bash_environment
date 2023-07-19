@@ -3,6 +3,7 @@
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 # vim: noet ts=4 sw=4 ft=sh:
+# shellcheck disable=SC3044
 
 echo 'Setting up environment ...';
 
@@ -24,13 +25,12 @@ shopt -s checkwinsize
 set -o vi
 export EDITOR="vim"
 
-
 # Enable SSH agent
-if [ ! -z "$(command -v ssh-agent)" ]
+if [ -n "$(command -v ssh-agent)" ]
 then
     if [ -z "$SSH_AUTH_SOCK" ]
     then
         echo "  Starting ssh-agent..."
-        eval `ssh-agent` > /dev/null
+		eval "$(ssh-agent)" > /dev/null
     fi
 fi
