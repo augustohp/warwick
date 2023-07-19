@@ -2,31 +2,33 @@
 #
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
+# vim: noet ts=4 sw=4 ft=sh:
 
 echo 'Loading warwick ...'
 
 # Non-interactive shells skip this =D
 [ -z "$PS1" ] && return
 
-source $HOME/.bash_environment
+source "$HOME/.warwick"
+source "$HOME/.bash_environment" | warwick_indent
 
 # -----------------------------------------------------------------------------
 #                                                                            OS
 
 if [ -f "/etc/debian_version" ]
 then
-   source "$HOME/.bash_profile_debian"
+   source "$HOME/.bash_profile_debian" | warwick_indent
 fi
 
 if [ $(uname) == "Darwin" ];
 then
-    source ~/.bash_profile_osx
+    source ~/.bash_profile_osx | warwick_indent
 elif [ ! -z "$(grep 'microsoft' /proc/version)" ]
 then
-	source ~/.bash_profile_wsl
+	source ~/.bash_profile_wsl | warwick_indent
 elif [ ! -z "$(uname -a | grep aarch64)" ]
 then
-	source ~/.bash_profile_pi
+	source ~/.bash_profile_pi | warwick_indent
 fi
 
 alias l='ls'

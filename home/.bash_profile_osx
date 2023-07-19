@@ -3,7 +3,7 @@
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 
-echo "macOS specifics ...";
+echo "Loading ~/.bash_profile_osx ...";
 
 # Installs [homebrew][]
 if [ -z "$(which brew)" ]

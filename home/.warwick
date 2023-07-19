@@ -1,0 +1,10 @@
+# ~/.warwick
+#
+# Author Augusto Pascutti <augusto.hp@gmail.com>
+# Part of http://github.com/augustohp/warwick
+# vim: noet ts=4 sw=4 ft=sh:
+
+warwick_indent()
+{
+	sed 's/^/  /'
+}
