@@ -4,6 +4,8 @@
 # Part of http://github.com/augustohp/warwick
 # vim: noet ts=4 sw=4 ft=sh:
 
+# shellcheck disable=SC1091,SC1090
+
 echo 'Loading warwick ...'
 
 # Non-interactive shells skip this =D
@@ -18,18 +20,18 @@ source "$HOME/.bash_environment"
 
 if [ -f "/etc/debian_version" ]
 then
-   source "$HOME/.bash_profile_debian" | warwick_indent
+   source "$HOME/.bash_profile_debian"
 fi
 
 if [ $(uname) == "Darwin" ];
 then
-    source ~/.bash_profile_osx | warwick_indent
+    source ~/.bash_profile_osx
 elif [ ! -z "$(grep 'microsoft' /proc/version)" ]
 then
-	source ~/.bash_profile_wsl | warwick_indent
+	source ~/.bash_profile_wsl
 elif [ ! -z "$(uname -a | grep aarch64)" ]
 then
-	source ~/.bash_profile_pi | warwick_indent
+	source ~/.bash_profile_pi
 fi
 
 # If c9s/phpbrew is installed, use it

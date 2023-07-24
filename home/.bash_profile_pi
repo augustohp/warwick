@@ -3,7 +3,7 @@
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 
-echo "Loading ~/.bash_profile_pi ..."
+echo "  Loading ~/.bash_profile_pi ..."
 
 # Rootless docker
 export PATH=/usr/bin:$PATH

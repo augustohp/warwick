@@ -4,7 +4,7 @@
 # Part of http://github.com/augustohp/warwick
 # vim: ft=sh:
 
-echo "Loading ~/.bash_profile_wsl ..."
+echo "  Loading ~/.bash_profile_wsl ..."
 
 WIN_HOME_RAW="$(cmd.exe /c "<nul set /p=%UserProfile%" 2>/dev/null)"
 if [ -z "$WIN_HOME_RAW" ]
