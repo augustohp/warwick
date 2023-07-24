@@ -9,8 +9,9 @@ echo 'Loading warwick ...'
 # Non-interactive shells skip this =D
 [ -z "$PS1" ] && return
 
+export PS1="\W $ "
 source "$HOME/.warwick"
-source "$HOME/.bash_environment" | warwick_indent
+source "$HOME/.bash_environment"
 
 # -----------------------------------------------------------------------------
 #                                                                            OS
@@ -30,19 +31,6 @@ elif [ ! -z "$(uname -a | grep aarch64)" ]
 then
 	source ~/.bash_profile_pi | warwick_indent
 fi
-
-alias l='ls'
-alias ll='ls -laht'
-alias sudo="sudo env PATH=\"${PATH}\"" # keep current binaries
-alias sl="ls"
-alias pcat="pygmentize -f terminal256 -O style=native -g"
-alias c="clear"
-alias ..="cd .."
-alias .-="cd -"
-alias k="kubectl"
-alias kt="kubetail"
-alias kc="kubectx"
-alias g="git"
 
 # If c9s/phpbrew is installed, use it
 if [ -d "$PHPBREW_PATH" ]; then

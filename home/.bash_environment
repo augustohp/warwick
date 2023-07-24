@@ -5,7 +5,7 @@
 # vim: noet ts=4 sw=4 ft=sh:
 # shellcheck disable=SC3044
 
-echo 'Loading ~/.bash_environment ...';
+echo '  Loading ~/.bash_environment ...';
 
 export TERM=xterm-256color
 export PHPBREW_PATH="${HOME}/.phpbrew"
@@ -13,19 +13,46 @@ export GOPATH="${HOME}"
 export HEROKU_TOOLBET_PATH="/usr/local/heroku/bin"
 export PS1="\W $ "
 
-# History control. bash(1)
-HISTCONTROL=ignoreboth # avoid duplicated lines and spaced started ones
-shopt -s histappend # append to the history file
+# -----------------------------------------------------------------------------
+#                                                                        Alises
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias l='ls'
+alias ll='ls -laht'
+alias sudo="sudo env PATH=\"${PATH}\"" # keep current binaries
+alias sl="ls"
+alias pcat="pygmentize -f terminal256 -O style=native -g"
+alias c="clear"
+alias ..="cd .."
+alias .-="cd -"
+alias k="kubectl"
+alias kt="kubetail"
+alias kc="kubectx"
+alias g="git"
+
+# -----------------------------------------------------------------------------
+#                                                                      History
+
+# Avoid duplicated lines and spaced started ones
+HISTCONTROL=ignoreboth 
+# Append to the history file
+shopt -s histappend 
 HISTSIZE=1000
 HISTFILESIZE=2000
 
 shopt -s checkwinsize
 
-# VIM everywhere
+# -----------------------------------------------------------------------------
+#                                                                VIM everywhere
+
 set -o vi
 export EDITOR="vim"
 
-# Enable SSH agent
+# -----------------------------------------------------------------------------
+#                                                                          SSH
+
+# Runs ssh-agent
 if [ -n "$(command -v ssh-agent)" ]
 then
     if [ -z "$SSH_AUTH_SOCK" ]
