@@ -38,8 +38,8 @@ alias g="git"
 HISTCONTROL=ignoreboth 
 # Append to the history file
 shopt -s histappend 
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=1000 # size of history of the current session
+HISTFILESIZE=20000 # size of whole history
 
 shopt -s checkwinsize
 
