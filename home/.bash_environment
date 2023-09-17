@@ -29,7 +29,75 @@ alias .-="cd -"
 alias k="kubectl"
 alias kt="kubetail"
 alias kc="kubectx"
+
+# Git
+
+git_clean_branch_prefix () { sed 's/^[\t \*]*//'; }
+
+##
+# Will display all local branches in the current repository
+# using `fzf` to choose one among them. Returning only one.
+##
+# Usage: git_choose_local_branch
+git_choose_local_branch ()
+{
+	git branch \
+		| git_clean_branch_prefix \
+		| fzf --no-multi --height="30%" --header "Local branches"
+}
+
+##
+# Will output "main" or "master", depending on the local branch
+# that exists.
+##
+# Usage: git_main_or_master_branch
+git_main_or_master_branch()
+{
+	git branch \
+		| grep -e main -e master \
+		| head -n 1 \
+		| git_clean_branch_prefix
+}
+
+##
+# Will go to a given branch or display among existing ones
+# using `fzf`.
+##
+# Usage: git_checkout_interactive [branch]
+git_checkout_interactive ()
+{
+    local branch="${1:-}"
+    
+    if [ -z "$branch" ]
+    then
+		branch="$(git_choose_local_branch)"
+    fi
+
+	git checkout "$branch"
+}
+
+##
+# Checkouts to the "main" branch or the repository, which might be
+# called "master" depending when the repository was created.
+##
+# Usage: git_checkout_main [branch]
+git_checkout_main ()
+{
+	local main_branch="${1:-}"
+
+	if [ -z "$main_branch" ]
+	then
+		main_branch="$(git_main_or_master_branch)"
+	fi
+
+	git checkout "$main_branch"
+}
+
 alias g="git"
+alias gb="git branch"
+alias gmb="git_main_or_master_branch"
+alias gcm="git_checkout_main"
+alias gc="git_checkout_interactive"
 
 # -----------------------------------------------------------------------------
 #                                                                      History
