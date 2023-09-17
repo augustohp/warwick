@@ -11,15 +11,15 @@ echo "  Loading ~/.bash_profile_debian ..."
 
 expected_locale=en_US.UTF-8
 set_locale=0
-if [ -z "$(grep ^${expected_locale} /etc/locale.gen)" ]
+if ! grep -q ^${expected_locale} /etc/locale.gen
 then
     echo "Locale $expected_locale not generated."
-    read -p 'Generate it? (y/n) ' yesno
+    read -rp 'Generate it? (y/n) ' yesno
     case "$yesno" in
         y | yes | s)
             sudo apt install -y -qq locales
             lang="${expected_locale%%.*}"
-            charset="${expected_locale##$lang.}"
+            charset="${expected_locale##"$lang".}"
             echo "Generating $lang ..."
             sudo sh -c "echo \"$expected_locale $charset\" >> /etc/locale.gen"
             sudo locale-gen
