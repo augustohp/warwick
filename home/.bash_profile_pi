@@ -5,10 +5,59 @@
 
 echo "  Loading ~/.bash_profile_pi ..."
 
-# Rootless docker
-export PATH=/usr/bin:$PATH
-export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+# -----------------------------------------------------------------------------
+#                                                                       Docker
 
-# Kubernetes
+PATH=/usr/bin:$PATH
+
+# Install if necessary
+docker_bin="$(command -v docker)"
+if [ -z "$docker_bin" ]
+then
+	# https://docs.docker.com/engine/install/debian/
+	echo "    Installing Docker..."
+	sudo apt-get update
+	sudo apt-get install -y ca-certificates curl gnupg
+	sudo install -m 0755 -d /etc/apt/keyrings
+	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+	sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+	echo \
+	  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+	  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+	  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	sudo apt-get update
+	sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+fi
+
+# Checks if we have rootless docker or not
+try_docker_host=unix://$XDG_RUNTIME_DIR/docker.sock
+if [ -f "$try_docker_host" ]
+then
+	echo '    Docker: rootless'
+	DOCKER_HOST="$try_docker_host"
+else
+	echo '    Docker: root'
+	DOCKER_HOST="/rub/docker.sock"
+fi
+export DOCKER_HOST
+
+# -----------------------------------------------------------------------------
+#                                                                    Kubernetes
+
+kubectl_path="$(command -v kubectl)"
+if [ -z "$kubectl_path" ]
+then
+	echo "    Installing kubectl..."
+	kubectl_bin="kubectl"
+	k8s_stable_release=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+	curl -L --silent "https://dl.k8s.io/release/$k8s_stable_release/bin/linux/arm64/kubectl" --output "$kubectl_bin"
+	chmod a+x "$kubectl_bin"
+	sudo mv "$kubectl_bin" /usr/local/bin/
+fi
+
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 export K3S_KUBECONFIG_MODE="644"
-export INSTALL_K3S_EXEC=" --no-deploy servicelb --no-deploy traefik"
+export INSTALL_K3S_EXEC=""
+export HELM_DATA_HOME="/mnt/pi01/usr/var/kubernetes/helm/data"
+export HELM_CACHE_HOME="/mnt/pi01/usr/var/kubernetes/helm/cache"
