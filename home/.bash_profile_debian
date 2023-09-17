@@ -37,3 +37,13 @@ if [ $set_locale -eq 1 ]
 then
     export LC_ALL=en_US.UTF-8
 fi
+
+# -----------------------------------------------------------------------------
+#                                                                          Deno
+
+DENO_INSTALL="/home/augustohp/.deno"
+if [ -d "$DENO_INSTALL" ]
+then
+	export PATH="$DENO_INSTALL/bin:$PATH"
+fi
+
