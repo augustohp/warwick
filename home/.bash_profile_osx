@@ -3,15 +3,27 @@
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 
+# shellcheck disable=SC1090,SC1091,SC2124
+
 echo "  Loading ~/.bash_profile_osx ...";
 
-# Installs [homebrew][]
+# -----------------------------------------------------------------------------
+#                                                                      Homebrew
+# https://brew.sh/
+
+HOMEBREW_NO_INSTALL_CLEANUP=1
+HOMEBREW_NO_ENV_HINTS=1
+HOMEBREW_CHECK_CACHEDIR="${HOME}/.homebrew-check"
+
+export HOMEBREW_NO_INSTALL_CLEANUP HOMEBREW_NO_ENV_HINTS
+
 if [ -z "$(which brew)" ]
 then
 	echo "Installing homebrew ..."
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	echo "Installing base packages using brew ..."
-	brew install ag awscli bash bash-completion gawk git gnu-sed gpg terraform tree vim 
+	brew update --quiet
+	brew install ag awscli bash bash-completion fzf gawk git gnu-sed gpg python3 terraform tree vim zoxide
 fi
 
 # [homebrew][] bash-completion support
@@ -25,29 +37,103 @@ then
 	source "$new_bash_completion_script"
 fi
 
-# Prefer [homebrew][] binaries
+# Prefer brew binaries
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
-# Makes [phpbrew][] reconize [homebrew][]
-export PHPBREW_LOOKUP_PREFIX=$(brew --prefix)
 
-# Fixes `pbcopy` on `tmux` for macosSierra
-# https://github.com/tmux/tmux/issues/543#issuecomment-248980734
-TMUX=$(which tmux)
-HOMEBREW=$(which brew)
-if [ ! -z "$TMUX" -a ! -z "$HOMEBREW" ]
-then
-	required_formula=reattach-to-user-namespace
-	NEEDS_FIXING=$($HOMEBREW ls | grep $required_formula)
-	if [ -z "$NEEDS_FIXING" ]
-	then
-		echo "Installing fix to pbcopy on tmux..."
-		$HOMEBREW install $required_formula
+brew_missing()
+{
+	local dep="$1"
+
+	if [ ! -d "$HOMEBREW_CHECK_CACHEDIR" ]
+	then 
+		mkdir "$HOMEBREW_CHECK_CACHEDIR"
 	fi
-fi
 
+	# If the dep file exists, it is already installed
+	if [ -f "$HOMEBREW_CHECK_CACHEDIR/$dep" ]
+	then
+		return 1
+	fi
+
+
+	if brew list "$dep"
+	then
+		# Caches check so this doesn't take forever
+		touch "${HOMEBREW_CHECK_CACHEDIR}/$dep"
+		return 1
+	fi
+
+	return 0
+}
+
+# Will install formula using brew, if not already installed
+# Usage: brew_dependency gawk gsed
+brew_dependency()
+{
+	local dependecies="$@"
+	
+	for dep in $dependecies
+	do
+		if brew_missing "$dep" 
+		then
+			echo "    Installing $dep..."
+			brew install --quiet "$dep"
+		fi
+	done
+}
+
+# -----------------------------------------------------------------------------
+#                                                                      Hide BSD
+
+brew_dependency gawk gsed
+
+# More sane "defaults" (Gnu) for Linux users, like me
 alias awk=gawk
 alias sed=gsed
 alias ls="ls -G"
 
-# [phpbrew]: https://github.com/phpbrew/phpbrew "Like pipenv, rubenv, nvm, but for PHP: Manage multiple PHP versions"
-# [homebrew]: https://brew.sh/ "The closest thing to an apt-get on a macOS"
+# -----------------------------------------------------------------------------
+#                                                                        Python
+# https://docs.brew.sh/Homebrew-and-Python
+
+BREW_PYTHON_PATH="$(brew --prefix python)/libexec/bin" 
+PATH="$BREW_PYTHON_PATH:$PATH"
+
+export PATH
+
+# -----------------------------------------------------------------------------
+#                                                                       PHPBrew
+# https://github.com/phpbrew/phpbrew
+
+if [ -n "$(command -v phpbrew)" ]
+then
+	# Makes phpbrew reconize homebrew
+	PHPBREW_LOOKUP_PREFIX="$(brew --prefix)"
+	export PHPBREW_LOOKUP_PREFIX
+fi
+
+# -----------------------------------------------------------------------------
+#                                                                  Google Cloud
+
+brew_dependency google-cloud-sdk
+
+source "$(brew --prefix)/share/google-cloud-sdk/path.bash.inc"
+CLOUDSDK_PYTHON="$BREW_PYTHON_PATH/python"
+export CLOUDSDK_PYTHON
+
+# -----------------------------------------------------------------------------
+#                                                                           k8s
+
+brew_dependency kubectx
+
+if brew_missing kubetail
+then
+	brew tap johanhaleby/kubetail
+	brew install kubetail --with-short-names
+fi
+
+if ! gke-gcloud-auth-plugin --version &>/dev/null
+then
+	echo "    Installing gke-gcloud-auth-plugin..."
+	gcloud components install gke-gcloud-auth-plugin
+fi
