@@ -26,6 +26,7 @@ alias pcat="pygmentize -f terminal256 -O style=native -g"
 alias c="clear"
 alias ..="cd .."
 alias .-="cd -"
+alias ...='cd $(git rev-parse --show-cdup)'
 alias k="kubectl"
 alias kt="kubetail"
 alias kc="kubectx"
@@ -96,8 +97,15 @@ git_checkout_main ()
 alias g="git"
 alias gb="git branch"
 alias gmb="git_main_or_master_branch"
-alias gcm="git_checkout_main"
+alias gcmb="git_checkout_main"
 alias gc="git_checkout_interactive"
+
+alias ga.="git add ."
+alias gC="git commit"
+alias ga.gpf="git add . && git commit --amend --no-edit && git push --force"
+
+alias gp="git pull"
+alias gfo="git fetch origin"
 
 # -----------------------------------------------------------------------------
 #                                                                      History
