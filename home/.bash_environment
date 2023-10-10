@@ -105,6 +105,7 @@ alias gC="git commit"
 alias ga.gpf="git add . && git commit --amend --no-edit && git push --force"
 
 alias gp="git pull"
+alias gP="git push"
 alias gfo="git fetch origin"
 
 # -----------------------------------------------------------------------------
