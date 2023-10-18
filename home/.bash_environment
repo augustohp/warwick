@@ -3,7 +3,8 @@
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
 # vim: noet ts=4 sw=4 ft=sh:
-# shellcheck disable=SC3044
+
+# shellcheck shell=sh disable=SC3044,SC3043
 
 echo '  Loading ~/.bash_environment ...';
 
@@ -20,7 +21,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias l='ls'
 alias ll='ls -laht'
-alias sudo="sudo env PATH=\"${PATH}\"" # keep current binaries
+alias sudo='sudo env PATH="${PATH}"' # keep current binaries
 alias sl="ls"
 alias pcat="pygmentize -f terminal256 -O style=native -g"
 alias c="clear"
@@ -44,7 +45,7 @@ git_choose_local_branch ()
 {
 	git branch \
 		| git_clean_branch_prefix \
-		| fzf --no-multi --height="30%" --header "Local branches"
+		| fzf --no-multi --height="15%" --header "Local branches"
 }
 
 ##
@@ -73,6 +74,10 @@ git_checkout_interactive ()
     then
 		branch="$(git_choose_local_branch)"
     fi
+    if [ -z "$branch" ]
+    then
+        return 1
+    fi
 
 	git checkout "$branch"
 }
@@ -94,7 +99,30 @@ git_checkout_main ()
 	git checkout "$main_branch"
 }
 
+git_unstaged_files ()
+{
+	git status --short \
+		| grep -v '^[MARCD]' \
+		| awk '{ print $2 }'
+}
+
+##
+# Displays a menu of changed files to be selected and added
+# interactively. Uses `fzf`
+##
+# Usage: git_add_interactive
+git_add_interactive ()
+{
+	local files
+
+	files=$(git_unstaged_files | fzf --multi --header "Which files to add?" --preview 'git diff -- {}')
+	git add "${files}"
+}
+
 alias g="git"
+alias ga="git_add_interactive"
+alias gs="git s"
+alias gd="git diff"
 alias gb="git branch"
 alias gmb="git_main_or_master_branch"
 alias gcmb="git_checkout_main"
