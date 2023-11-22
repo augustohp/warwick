@@ -6,6 +6,7 @@
 # shellcheck disable=SC1090,SC1091,SC2124
 
 echo "  Loading ~/.bash_profile_osx ...";
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # -----------------------------------------------------------------------------
 #                                                                      Homebrew
@@ -85,11 +86,15 @@ brew_dependency()
 # -----------------------------------------------------------------------------
 #                                                                      Hide BSD
 
-brew_dependency gawk gsed
+brew_dependency gawk gsed grep
+
+PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
+export PATH
 
 # More sane "defaults" (Gnu) for Linux users, like me
 alias awk=gawk
 alias sed=gsed
+alias grep=ggrep
 alias ls="ls -G"
 
 # -----------------------------------------------------------------------------
