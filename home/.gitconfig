@@ -2,7 +2,7 @@
     name = Augusto Pascutti
 	email = augusto.hp@gmail.com
 [core]
-    editor = vim
+    editor = nvim
 	excludesfile = ~/.gitignore_global
 [color]
     ui = true
@@ -54,3 +54,14 @@
     path = ~/.gitconfig_kobold
 [includeIf "gitdir:**/src/crawly.com.br/"]
     path = ~/.gitconfig_crawly
+[merge]
+	tool = vimdiff
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

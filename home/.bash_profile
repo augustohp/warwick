@@ -23,49 +23,27 @@ then
    source "$HOME/.bash_profile_debian"
 fi
 
-if [ $(uname) == "Darwin" ];
+if [ "$(uname)" == "Darwin" ];
 then
     source ~/.bash_profile_osx
-elif [ ! -z "$(grep 'microsoft' /proc/version)" ]
+elif grep -q 'microsoft' /proc/version
 then
 	source ~/.bash_profile_wsl
-elif [ ! -z "$(uname -a | grep aarch64)" ]
+elif uname -a | grep -q aarch64
 then
 	source ~/.bash_profile_pi
 fi
 
+# PHPBrew ----------------------------------------------------------------------
+# https://github.com/phpbrew/phpbrew
+
 # If c9s/phpbrew is installed, use it
+export PHPBREW_PATH="${HOME}/.phpbrew"
 if [ -d "$PHPBREW_PATH" ]; then
     source "$PHPBREW_PATH/bashrc"
     PHPBREW_VERSION="$(phpbrew info | head -n 2 | tail -n 1)"
     echo "PHPBrew loaded. (${PHPBREW_VERSION})"
 fi;
-
-# Search for a binary path inside home
-if [ -d "$HOME/bin" ]; then
-	export PATH="$HOME/bin:$PATH"
-fi;
-
-# Add heroku toolbelt
-if [ -d "$HEROKU_TOOLBET_PATH" ]; then
-    export PATH="$HEROKU_TOOLBET_PATH:$PATH"
-fi;
-
-
-# User specific environment and startup programs
-git_parse_dirty()
-{
-    test "$(git diff HEAD --name-only  2>/dev/null 2>&1)" \
-        && echo " *"
-}
-
-git_branch_name()
-{
-    git branch 2>/dev/null \
-      | grep -e "^*" \
-      | cut -d "_" -f 1 \
-      | sed -E "s/^\* (.+)$/(\1$(git_parse_dirty)) /"
-}
 
 # Homeshick -------------------------------------------------------------------
 export HOMESHICK_DIR="${HOME}/.homesick/repos/homeshick"
@@ -74,12 +52,6 @@ then
 	echo "Loading Homeshick..."
 	source "${HOMESHICK_DIR}/homeshick.sh"
 fi
-
-export SDKMAN_DIR="/home/augusto/.sdkman"
-[[ -s "/home/augusto/.sdkman/bin/sdkman-init.sh" ]] && source "/home/augusto/.sdkman/bin/sdkman-init.sh"
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-[[ -f "$HOME/.bashrc_creditas" ]] && source "$HOME/.bashrc_creditas"
 
 # Zoxide -----------------------------------------------------------------------
 # https://github.com/ajeetdsouza/zoxide
@@ -93,10 +65,12 @@ fi
 # Usage: zoxide_feed
 zoxide_feed()
 {
-	for d in `history | grep 'cd' | awk '{ print $3}' | sort | uniq`
+	for d in $(history | grep 'cd' | awk '{ print $3}' | sort | uniq)
 	do 
-		test -d "$d" && { z "$d"; z -; }
+		test -d "$d" && { zoxide add "$d"; }
 	done
+
+	find "$HOME" -type d -name ".git" -exec zoxide add "$d" \;
 }
 
 
@@ -131,3 +105,15 @@ then
 	echo "Loading fzf..."
 	source "$FZF_SCRIPT"
 fi
+
+# Go ---------------------------------------------------------------------------
+# https://go.dev
+
+GO_INSTALL_DIR="/usr/local/go"
+if [ -d "$GO_INSTALL_DIR" ]
+then
+	echo "  Loading 'go'..."
+	export GOPATH="${HOME}/src"
+	export GOBIN="${HOME}/bin"
+fi
+

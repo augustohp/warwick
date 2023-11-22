@@ -8,3 +8,4 @@ phpunit.xml
 .ctags
 .DS_Store
 .idea
+.phpactor.json
