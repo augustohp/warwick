@@ -51,6 +51,17 @@ git_choose_local_branch ()
 		| fzf --no-multi --height="15%" --header "Local branches"
 }
 
+git_choose_remote_branch()
+{
+	
+	git fetch --quiet --all 2>/dev/null >/dev/null
+
+	git branch -r \
+		| git_clean_branch_prefix \
+		| grep -v '->' \
+		| fzf --no-multi --height "15%" --header "Remote branches"
+}
+
 ##
 # Will output "main" or "master", depending on the local branch
 # that exists.
@@ -68,21 +79,26 @@ git_main_or_master_branch()
 # Will go to a given branch or display among existing ones
 # using `fzf`.
 ##
-# Usage: git_checkout_interactive [branch]
+# Usage: git_checkout_interactive
 git_checkout_interactive ()
 {
-    local branch="${1:-}"
-    
-    if [ -z "$branch" ]
+	local branch
+
+	# Display local branches first ...
+	branch="$(git_choose_local_branch)"
+    if [ -n "$branch" ]
     then
-		branch="$(git_choose_local_branch)"
-    fi
-    if [ -z "$branch" ]
-    then
-        return 1
+		git checkout "$branch"
+		return 0
     fi
 
-	git checkout "$branch"
+	# If no one is chosen, display remote branches...
+	branch="$(git_choose_remote_branch)"
+	if [ -n "$branch" ]
+	then
+		echo $branch
+	fi
+
 }
 
 ##
@@ -116,10 +132,35 @@ git_unstaged_files ()
 # Usage: git_add_interactive
 git_add_interactive ()
 {
-	local files
+	git_unstaged_files \
+        | fzf --multi --header "Which files to add?" --preview 'git diff -- {}' --print0 \
+        | tr '\n' ' ' \
+		| xargs -0 -t -o git add --all
+}
 
-	files=$(git_unstaged_files | fzf --multi --header "Which files to add?" --preview 'git diff -- {}')
-	git add "${files}"
+# Usage: git_nothing_to_commit || echo "you need to commit first"
+git_nothing_to_commit()
+{ 
+	git diff --cached --exit-code > /dev/null >&2
+	return $?
+}
+##
+# Will commit if there are staged files or enter
+# interactive branch selection to checkout.
+##
+# Usage: git_commit_or_checkout [opts]
+git_commit_or_checkout()
+{
+	if git_nothing_to_commit
+	then
+		# shellcheck disable=SC2068
+		git_checkout_interactive $@
+		return $?
+	else
+		# shellcheck disable=SC2068
+		git commit $@
+		return $?
+	fi
 }
 
 alias g="git"
@@ -129,7 +170,7 @@ alias gd="git diff"
 alias gb="git branch"
 alias gmb="git_main_or_master_branch"
 alias gcmb="git_checkout_main"
-alias gc="git_checkout_interactive"
+alias gc="git_commit_or_checkout"
 
 alias ga.="git add ."
 alias gC="git commit"
