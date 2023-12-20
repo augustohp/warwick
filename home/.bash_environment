@@ -102,11 +102,21 @@ git_checkout_main ()
 	git checkout "$main_branch"
 }
 
+##
+# Echos files subject to `git-add`.
+##
+# Usage: git_unstaged_files
 git_unstaged_files ()
 {
+	# Files with changes
 	git status --short \
 		| grep -v '^[MARCD]' \
 		| awk '{ print $2 }'
+	# Renamed files with changes
+	git status --short \
+		| grep "^RM" \
+		| cut -d ">" -f 2 \
+		| sed 's/^[ \t]*//'
 }
 
 ##
@@ -118,8 +128,21 @@ git_add_interactive ()
 {
 	local files
 
-	files=$(git_unstaged_files | fzf --multi --header "Which files to add?" --preview 'git diff -- {}')
-	git add "${files}"
+	files=$(git_unstaged_files \
+		| fzf --multi \
+			--layout reverse \
+			--border \
+			--border-label-pos 2 \
+			--border-label "📁 Choosing files ..." \
+			--prompt "git add" \
+			--header "TAB (selects file) / ENTER (submits) / CTRL-C (quits)" \
+			--preview-label "git-diff" \
+			--preview-label-pos 2 \
+			--preview 'git diff --no-ext-diff --color=always -- {}' )
+	for f in $files
+	do
+		git add "$f"
+	done
 }
 
 alias g="git"
@@ -132,6 +155,7 @@ alias gcmb="git_checkout_main"
 alias gc="git_checkout_interactive"
 
 alias ga.="git add ."
+alias gca="git commit --amend"
 alias gC="git commit"
 alias ga.gpf="git add . && git commit --amend --no-edit && git push --force"
 
