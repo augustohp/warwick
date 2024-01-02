@@ -109,10 +109,10 @@ fi
 # Go ---------------------------------------------------------------------------
 # https://go.dev
 
-GO_INSTALL_DIR="/usr/local/go"
-if [ -d "$GO_INSTALL_DIR" ]
+GO_BIN_PATH="$(command -v go)"
+if [ -n "$GO_BIN_PATH" ]
 then
-	echo "  Loading 'go'..."
+	echo "Loading go..."
 	export GOPATH="${HOME}/src"
 	export GOBIN="${HOME}/bin"
 fi
