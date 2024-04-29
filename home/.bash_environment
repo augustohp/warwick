@@ -4,12 +4,13 @@
 # Part of http://github.com/augustohp/warwick
 # vim: noet ts=4 sw=4 ft=sh:
 
-# shellcheck shell=sh disable=SC3044,SC3043
+# shellcheck shell=sh disable=SC3044,SC3043,SC1090
 
 echo '  Loading ~/.bash_environment ...';
 
 export TERM=xterm-256color
 export PS1="\W -> "
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"$HOME/.config"}
 
 # Search for a binary path inside home
 if [ -d "$HOME/bin" ]; then
@@ -201,4 +202,13 @@ if [ -n "$(command -v nvim)" ]
 then
 	alias vim=nvim
 	echo '    Favouring nvim...'
+fi
+
+# -----------------------------------------------------------------------------
+#                                                                      Exercism
+
+exercism_completion="${XDG_CONFIG_HOME}/exercism"
+if [ -f "${exercism_completion}" ]
+then
+	source "${exercism_completion}"
 fi
