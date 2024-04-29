@@ -6,7 +6,7 @@
 
 # shellcheck shell=sh disable=SC3044,SC3043,SC1090
 
-echo '  Loading ~/.bash_environment ...';
+warwick_verbose 'Loading ~/.bash_environment ...';
 
 export TERM=xterm-256color
 export PS1="\W -> "

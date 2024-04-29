@@ -13,44 +13,45 @@ echo 'Loading warwick ...'
 
 export PS1="\W $ "
 source "$HOME/.warwick"
-source "$HOME/.bash_environment"
+warwick_source "$HOME/.bash_environment"
 
 # -----------------------------------------------------------------------------
 #                                                                            OS
 
 if [ -f "/etc/debian_version" ]
 then
-   source "$HOME/.bash_profile_debian"
+   warwick_source "$HOME/.bash_profile_debian"
 fi
 
 if [ "$(uname)" == "Darwin" ];
 then
-    source ~/.bash_profile_osx
+    warwick_source ~/.bash_profile_osx
 elif grep -q 'microsoft' /proc/version
 then
-	source ~/.bash_profile_wsl
+	warwick_source ~/.bash_profile_wsl
 elif uname -a | grep -q aarch64
 then
-	source ~/.bash_profile_pi
+	warwick_source ~/.bash_profile_pi
 fi
 
+warwick_indent_increase
 # PHPBrew ----------------------------------------------------------------------
 # https://github.com/phpbrew/phpbrew
 
 # If c9s/phpbrew is installed, use it
 export PHPBREW_PATH="${HOME}/.phpbrew"
 if [ -d "$PHPBREW_PATH" ]; then
-    source "$PHPBREW_PATH/bashrc"
+    warwick_source "$PHPBREW_PATH/bashrc"
     PHPBREW_VERSION="$(phpbrew info | head -n 2 | tail -n 1)"
-    echo "PHPBrew loaded. (${PHPBREW_VERSION})"
+    warwick_verbose "PHPBrew loaded. (${PHPBREW_VERSION})"
 fi;
 
 # Homeshick -------------------------------------------------------------------
 export HOMESHICK_DIR="${HOME}/.homesick/repos/homeshick"
 if [ -d "${HOMESHICK_DIR}" ]
 then
-	echo "Loading Homeshick..."
-	source "${HOMESHICK_DIR}/homeshick.sh"
+	warwick_verbose "Loading Homeshick..."
+	warwick_source "${HOMESHICK_DIR}/homeshick.sh"
 fi
 
 # Zoxide -----------------------------------------------------------------------
@@ -80,9 +81,9 @@ zoxide_feed()
 export NVM_DIR="$HOME/.nvm"
 if [ -f "$NVM_DIR/nvm.sh" ]
 then
-	echo "Loading nvm..."
-	source "$NVM_DIR/nvm.sh"
-	source "$NVM_DIR/bash_completion"
+	warwick_verbose "Loading nvm..."
+	warwick_source "$NVM_DIR/nvm.sh"
+	warwick_source "$NVM_DIR/bash_completion"
 fi
 
 # Ruby Version manager (RVM) --------------------------------------------------
@@ -92,8 +93,8 @@ export RVM_DIR="$HOME/.rvm"
 RVM_SCRIPT="$RVM_DIR/scripts/rvm"
 if [ -f "$RVM_SCRIPT" ]
 then
-	echo "Loading rvm..."
-	source "$RVM_SCRIPT"
+	warwick_verbose "Loading rvm..."
+	warwick_source "$RVM_SCRIPT"
 fi
 
 # FZF (Fuzzy finder) ----------------------------------------------------------
@@ -102,8 +103,8 @@ fi
 FZF_SCRIPT="$HOME/.fzf.bash"
 if [ -f "$FZF_SCRIPT" ]
 then
-	echo "Loading fzf..."
-	source "$FZF_SCRIPT"
+	warwick_verbose "Loading fzf..."
+	warwick_source "$FZF_SCRIPT"
 fi
 
 # Go ---------------------------------------------------------------------------
@@ -112,8 +113,12 @@ fi
 GO_BIN_PATH="$(command -v go)"
 if [ -n "$GO_BIN_PATH" ]
 then
-	echo "Loading go..."
+	warwick_verbose "Loading go..."
 	export GOPATH="${HOME}/src"
 	export GOBIN="${HOME}/bin"
 fi
 
+# -----------------------
+# end
+
+warwick_indent_decrease

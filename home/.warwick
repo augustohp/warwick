@@ -4,7 +4,73 @@
 # Part of http://github.com/augustohp/warwick
 # vim: noet ts=4 sw=4 ft=sh:
 
+# -----------------------------------------------------------------------------
+# Identation and verbosity
+
+export INDENT_LEVEL=0
+export INDENT_STRING="  "
+
+# Usage: indent="$(warwick_indent_string)" && echo "$indent Testing..."
+warwick_indent_string()
+{
+	local result=""
+	local i=0
+	while [ $i -lt $INDENT_LEVEL ]
+	do
+		result="${result}${INDENT_STRING}"
+		i=$((i+1))
+	done
+
+	echo "$result"
+	return 0
+}
+
 warwick_indent()
 {
-	sed 's/^/  /'
+	local indent
+
+	indent="$(warwick_indent_string)"
+	sed "s/^/$indent/"
+}
+
+warwick_indent_increase()
+{
+	INDENT_LEVEL=$((INDENT_LEVEL+1))
+}
+
+warwick_indent_decrease()
+{
+	INDENT_LEVEL=$((INDENT_LEVEL-1))
+}
+
+warwick_verbose()
+{
+	local msg
+	local indent
+
+	msg="$*"
+	indent="$(warwick_indent_string)"
+
+	echo "${indent}${msg}"
+}
+
+# -----------------------------------------------------------------------------
+# Loading other files
+
+
+warwick_source()
+{
+	local source_path
+
+	source_path="$1"
+	if [ ! -f "$source_path" ]
+	then
+		echo "Error: Cannot load '$source_path', path doesn't exists!" >&2
+		return 1
+	fi
+
+	warwick_indent_increase
+	source "$source_path"
+	warwick_indent_decrease
+	return 0
 }
