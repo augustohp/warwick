@@ -54,9 +54,17 @@ warwick_verbose()
 	echo "${indent}${msg}"
 }
 
+warwick_verbose_inside()
+{
+	warwick_indent_increase
+	warwick_verbose "$*"
+	warwick_indent_decrease
+}
+
 # -----------------------------------------------------------------------------
 # Loading other files
 
+export WARWICK_MODULE_ENTRYPOINT="warwick_load.sh"
 
 warwick_source()
 {
@@ -74,3 +82,4 @@ warwick_source()
 	warwick_indent_decrease
 	return 0
 }
+

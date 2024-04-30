@@ -34,6 +34,18 @@ then
 	warwick_source ~/.bash_profile_pi
 fi
 
+# Module load ------------------------------------------------------------------
+
+modules_found_path="$(mktemp)"
+find "${XDG_CONFIG_HOME}" -type f,l -name "$WARWICK_MODULE_ENTRYPOINT" > "$modules_found_path"
+warwick_verbose "Loading plugins ..." 
+warwick_indent_increase
+while IFS= read -r module
+do
+	warwick_source "$module"
+done < "$modules_found_path"
+warwick_indent_decrease
+
 warwick_indent_increase
 # PHPBrew ----------------------------------------------------------------------
 # https://github.com/phpbrew/phpbrew
@@ -73,18 +85,6 @@ zoxide_feed()
 
 	find "$HOME" -type d -name ".git" -exec zoxide add "$d" \;
 }
-
-
-# Node Version Mamager (NVM) ----------------------------------------------------
-# https://nodecli.com/nodejs-nvm
-
-export NVM_DIR="$HOME/.nvm"
-if [ -f "$NVM_DIR/nvm.sh" ]
-then
-	warwick_verbose "Loading nvm..."
-	warwick_source "$NVM_DIR/nvm.sh"
-	warwick_source "$NVM_DIR/bash_completion"
-fi
 
 # Ruby Version manager (RVM) --------------------------------------------------
 # https://rvm.io/
