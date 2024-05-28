@@ -38,8 +38,8 @@ fi
 
 modules_found_path="$(mktemp)"
 find "${XDG_CONFIG_HOME}" -type f,l -name "$WARWICK_MODULE_ENTRYPOINT" > "$modules_found_path"
-warwick_verbose "Loading plugins ..." 
 warwick_indent_increase
+warwick_verbose "Loading plugins ..."
 while IFS= read -r module
 do
 	warwick_source "$module"
@@ -47,16 +47,6 @@ done < "$modules_found_path"
 warwick_indent_decrease
 
 warwick_indent_increase
-# PHPBrew ----------------------------------------------------------------------
-# https://github.com/phpbrew/phpbrew
-
-# If c9s/phpbrew is installed, use it
-export PHPBREW_PATH="${HOME}/.phpbrew"
-if [ -d "$PHPBREW_PATH" ]; then
-    warwick_source "$PHPBREW_PATH/bashrc"
-    PHPBREW_VERSION="$(phpbrew info | head -n 2 | tail -n 1)"
-    warwick_verbose "PHPBrew loaded. (${PHPBREW_VERSION})"
-fi;
 
 # Homeshick -------------------------------------------------------------------
 export HOMESHICK_DIR="${HOME}/.homesick/repos/homeshick"
