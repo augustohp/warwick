@@ -31,5 +31,5 @@ fi
 # Usage: tmux <commands>
 tmux()
 {
-	TMUX_PATH -f "$TMUX_CONFIG_FILE" "$@"
+	$TMUX_PATH -f "$TMUX_CONFIG_FILE" "$@"
 }
