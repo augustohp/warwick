@@ -94,6 +94,8 @@ FZF_SCRIPT="$HOME/.fzf.bash"
 if [ -f "$FZF_SCRIPT" ]
 then
 	warwick_verbose "Loading fzf..."
+	# Disables CTRL-T to point to FZF
+	export FZF_CTRL_T_COMMAND=
 	warwick_source "$FZF_SCRIPT"
 fi
 
