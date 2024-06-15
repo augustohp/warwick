@@ -9,3 +9,4 @@ phpunit.xml
 .DS_Store
 .idea
 .phpactor.json
+*.vimsession
