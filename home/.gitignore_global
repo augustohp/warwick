@@ -10,3 +10,4 @@ phpunit.xml
 .idea
 .phpactor.json
 *.vimsession
+.aider*
