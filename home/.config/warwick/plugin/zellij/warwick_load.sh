@@ -4,6 +4,8 @@
 # https://zellij.dev/
 
 ZELLIJ="$(command -v zellij)"
+export ZELLIJ_CONFIG_DIR="$HOME/.config/warwick/plugin/zellij"
+ZELLIJ_CACHE_DIR="${XDG_RUNTIME_DIR%%/}/zellij"
 
 if [ -z "$ZELLIJ" ]
 then
@@ -11,9 +13,6 @@ then
 fi
 
 warwick_verbose "Zellij"
-
-export ZELLIJ_CONFIG_DIR="$HOME/.config/warwick/plugin/zellij"
-ZELLIJ_CACHE_DIR="$XDG_RUNTIME_DIR/zellij"
 
 ##
 # Will check cache directory permission before launching

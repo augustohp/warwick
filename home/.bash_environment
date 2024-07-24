@@ -11,6 +11,12 @@ warwick_verbose 'Loading ~/.bash_environment ...';
 export TERM=xterm-256color
 export PS1="\W -> "
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"$HOME/.config"}
+export XDG_RUNTIME_DIR="$HOME/.run/"
+
+if [ ! -d "$XDG_RUNTIME_DIR" ]
+then
+	mkdir -p "$XDG_RUNTIME_DIR"
+fi
 
 # Search for a binary path inside home
 if [ -d "$HOME/bin" ]; then
