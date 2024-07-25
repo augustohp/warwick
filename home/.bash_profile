@@ -37,7 +37,8 @@ fi
 # Module load ------------------------------------------------------------------
 
 modules_found_path="$(mktemp)"
-find "${XDG_CONFIG_HOME}" -type f,l -name "$WARWICK_MODULE_ENTRYPOINT" > "$modules_found_path"
+find "${XDG_CONFIG_HOME}" -type f -name "$WARWICK_MODULE_ENTRYPOINT" >> "$modules_found_path"
+find "${XDG_CONFIG_HOME}" -type l -name "$WARWICK_MODULE_ENTRYPOINT" >> "$modules_found_path"
 warwick_indent_increase
 warwick_verbose "Loading plugins ..."
 while IFS= read -r module
@@ -45,6 +46,7 @@ do
 	warwick_source "$module"
 done < "$modules_found_path"
 warwick_indent_decrease
+rm "$modules_found_path"
 
 warwick_indent_increase
 
