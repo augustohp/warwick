@@ -11,6 +11,7 @@ alias gb="git branch"
 alias gmb="git_main_or_master_branch"
 alias gcmb="git_checkout_main"
 alias gc="git_checkout_interactive"
+alias gcr="git_checkout_remote"
 
 alias ga.="git add ."
 alias gca="git commit --amend"
@@ -23,12 +24,53 @@ alias gfo="git fetch origin"
 
 alias gbd="git_branch_delete_interactive"
 
+wg_trim_leading_whitespaces() { sed 's/^[\t ]*//'; }
+wg_remove_leading_star () { sed 's/^[\t \*]*//'; }
+wg_filter_remote_branches_without_local_copies () { grep -v ' -> '; }
+wg_remove_prefix () { sed "s/^${1}//"; }
 
-
-# Usage: git branch | git_clean_branch_prefix
-git_clean_branch_prefix () 
+##
+# Returns current branch of working directory.
+##
+# Usage: wg_current_branch
+wg_current_branch ()
 {
-	sed 's/^[\t \*]*//'
+	git branch \
+		| grep '^* ' \
+		| wg_remove_leading_star
+}
+
+##
+# Will download changes from remote without applying them to anywhere
+# and without generating any output.
+##
+# Usage: wg_fetch_silent
+wg_fetch_silent ()
+{
+	local remote
+
+	remote='origin'
+	git fetch "${remote}" > /dev/null 2>&1
+}
+
+##
+# Will save work on current branch to allow destructive commands.
+##
+# Usage: wg_stash_silent
+wg_stash_silent ()
+{
+	local current_branch
+	local today
+
+	today="$(date +%Y-%m-%d)"
+	current_branch="$(wg_current_branch)"
+
+	# Staged changes
+	git diff --cached --exit-code > /dev/null || \
+		git stash save --quiet --staged "Auto stashed staged changes while on '${current_branch}' at '${today}'."
+	# Non staged changes
+	git diff --exit-code > /dev/null || \
+		git stash save --quiet --all --include-untracked "Auto stashed while on '${current_branch}' at '${today}'."
 }
 
 ##
@@ -38,9 +80,53 @@ git_clean_branch_prefix ()
 # Usage: git_choose_local_branch
 git_choose_local_branch ()
 {
+	local remote_name
+	local main_branch
+	remote_name='origin'
+	main_branch="$(git_main_or_master_branch)"
+
+	wg_stash_silent
 	git branch \
-		| git_clean_branch_prefix \
-		| fzf --no-multi --height="15%" --header "Local branches"
+		| wg_remove_leading_star \
+		| fzf --no-multi \
+			--height="35%" \
+			--header "TAB (selects file) / ENTER (submits) / CTRL-C (quits)" \
+			--border --border-label-pos 2 --border-label "🪵 Choose local branch to checkout ..." \
+			--prompt "git checkout " \
+			--preview "git log --oneline ${remote_name}/${main_branch}..{}" \
+			--preview-label "Changes from '${main_branch}'" \
+			--preview-label-pos 2
+}
+
+##
+# Displays remote branches, and checks it out.
+##
+# Usage: git_checkout_remote
+git_checkout_remote ()
+{
+	local remote_name
+	local main_branch
+	local desired_remote_branch
+	remote_name='origin'
+	main_branch="$(git_main_or_master_branch)"
+
+	desired_remote_branch=$(
+		git branch -r \
+		| wg_trim_leading_whitespaces \
+		| wg_filter_remote_branches_without_local_copies \
+		| fzf --no-multi \
+			--header "TAB (selects file) / ENTER (submits) / CTRL-C (quits)" \
+			--border --border-label-pos 2 --border-label "📁 Choosing files ..." \
+			--prompt "git checkout -b " \
+			--preview "git log --oneline ${remote_name}/${main_branch}..{}" \
+			--preview-label "Changes from '${main_branch}'" \
+			--preview-label-pos 2
+		)
+
+	test -z "$desired_remote_branch" && return 1
+	wg_stash_silent
+	desired_remote_branch="$(echo "${desired_remote_branch}" | wg_remove_prefix "${remote_name}\\/")"
+	git checkout -b "${desired_remote_branch}" "${remote_name}/${desired_remote_branch}"
 }
 
 ##
@@ -53,7 +139,7 @@ git_main_or_master_branch()
 	git branch \
 		| grep -e main -e master \
 		| head -n 1 \
-		| git_clean_branch_prefix
+		| wg_remove_leading_star
 }
 
 ##
@@ -63,17 +149,18 @@ git_main_or_master_branch()
 # Usage: git_checkout_interactive [branch]
 git_checkout_interactive ()
 {
-    local branch="${1:-}"
-    
-    if [ -z "$branch" ]
-    then
-		branch="$(git_choose_local_branch)"
-    fi
-    if [ -z "$branch" ]
-    then
-        return 1
-    fi
+	local branch="${1:-}"
 
+	if [ -z "$branch" ]
+	then
+		branch="$(git_choose_local_branch)"
+	fi
+	if [ -z "$branch" ]
+	then
+		return 1
+	fi
+
+	wg_stash_silent
 	git checkout "$branch"
 }
 
@@ -91,6 +178,7 @@ git_checkout_main ()
 		main_branch="$(git_main_or_master_branch)"
 	fi
 
+	wg_stash_silent
 	git checkout "$main_branch"
 }
 
@@ -108,7 +196,7 @@ git_unstaged_files ()
 	git status --short \
 		| grep "^RM" \
 		| cut -d ">" -f 2 \
-		| sed 's/^[ \t]*//'
+		| wg_trim_leading_whitespaces
 }
 
 ##
@@ -165,4 +253,3 @@ git_branch_delete_interactive ()
 		git branch -D "$f"
 	done
 }
-
