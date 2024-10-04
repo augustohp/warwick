@@ -36,8 +36,8 @@
     pop = reset --hard HEAD^
     new = checkout -b
     cleanup = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs git branch -d; }; f"
-    review = diff --color-words --cached
-    o-que-mudou = diff --color-words HEAD^
+    dc = diff --color-words --cached
+    review = log --oneline origin/main..
     wip = ls-files -o -m --exclude-standard
     ctags = !.git/hooks/ctags
 [push]
