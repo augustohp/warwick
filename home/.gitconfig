@@ -35,7 +35,7 @@
     undo = reset HEAD
     pop = reset --hard HEAD^
     new = checkout -b
-    cleanup = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs git branch -d; }; f"
+    cleanup = "!f() { git branch --merged ${1-main} | grep -v \" ${1-main}$\" | xargs git branch -d; }; f"
     dc = diff --color-words --cached
     review = log --oneline origin/main..
     wip = ls-files -o -m --exclude-standard
