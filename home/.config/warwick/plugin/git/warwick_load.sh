@@ -14,9 +14,10 @@ alias gc="git_checkout_interactive"
 alias gcr="git_checkout_remote"
 
 alias ga.="git add ."
-alias gca="git commit --amend"
+alias gca="git commit --amend --no-edit"
+alias gpf="git push --force"
+alias g.f="ga. && gca && gpf"
 alias gC="git commit"
-alias ga.gpf="git add . && git commit --amend --no-edit && git push --force"
 
 alias gp="git pull"
 alias gP="git push"
