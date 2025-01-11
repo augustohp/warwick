@@ -2,8 +2,8 @@
     name = Augusto Pascutti
 	email = augusto.hp@gmail.com
 [core]
-    editor = nvim
-	excludesfile = ~/.gitignore_global
+    editor = vim
+    excludesfile = ~/.gitignore_global
 [color]
     ui = true
     branch = auto
