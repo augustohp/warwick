@@ -58,7 +58,7 @@ brew_missing()
 	fi
 
 
-	if brew list "$dep"
+	if brew list "$dep" 2> /dev/null
 	then
 		# Caches check so this doesn't take forever
 		touch "${HOMEBREW_CHECK_CACHEDIR}/$dep"
@@ -102,7 +102,7 @@ alias ls="ls -G"
 #                                                                        Python
 # https://docs.brew.sh/Homebrew-and-Python
 
-BREW_PYTHON_PATH="$(brew --prefix python)/libexec/bin" 
+BREW_PYTHON_PATH="$(brew --prefix python)/libexec/bin"
 PATH="$BREW_PYTHON_PATH:$PATH"
 
 export PATH
@@ -121,11 +121,29 @@ fi
 # -----------------------------------------------------------------------------
 #                                                                  Google Cloud
 
-brew_dependency google-cloud-sdk
+brew_dependency python3 google-cloud-sdk
 
 source "$(brew --prefix)/share/google-cloud-sdk/path.bash.inc"
 CLOUDSDK_PYTHON="$BREW_PYTHON_PATH/python"
 export CLOUDSDK_PYTHON
+
+if ! gke-gcloud-auth-plugin --version &>/dev/null
+then
+	echo "    Installing gke-gcloud-auth-plugin..."
+	gcloud components install gke-gcloud-auth-plugin
+fi
+
+# -----------------------------------------------------------------------------
+#                                                                         Casks
+
+casks="docker visual-studio-code vivaldi 1password"
+for cask in $casks
+do
+	if brew_missing $cask
+	then
+		brew install --cask $cask
+	fi
+done
 
 # -----------------------------------------------------------------------------
 #                                                                           k8s
@@ -135,11 +153,6 @@ brew_dependency kubectx
 if brew_missing kubetail
 then
 	brew tap johanhaleby/kubetail
-	brew install kubetail --with-short-names
+	brew install kubetail
 fi
 
-if ! gke-gcloud-auth-plugin --version &>/dev/null
-then
-	echo "    Installing gke-gcloud-auth-plugin..."
-	gcloud components install gke-gcloud-auth-plugin
-fi
