@@ -3,6 +3,15 @@
 
 warwick_verbose "Git"
 
+if [ -n "$WSL_HOME" ]
+then
+	warwick_verbose_inside 'Using ssh.exe to integrate with 1password'
+	alias ssh="ssh.exe"
+fi
+
+# -----------------------------------------------------------------------------
+#                                                                       Aliases
+
 alias g="git"
 alias ga="git_add_interactive"
 alias gs="git s"
