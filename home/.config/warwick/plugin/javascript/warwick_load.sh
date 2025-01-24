@@ -16,10 +16,11 @@ esac
 # Node Version Mamager (NVM) ----------------------------------------------------
 # https://nodecli.com/nodejs-nvm
 
-export NVM_DIR="$HOME/.nvm"
+NVM_DIR="$HOME/.config/nvm"
 if [ -f "$NVM_DIR/nvm.sh" ]
 then
-	warwick_verbose_inside "Loading nvm..."
-	warwick_source "$NVM_DIR/nvm.sh"
-	warwick_source "$NVM_DIR/bash_completion"
+  export NVM_DIR
+  warwick_verbose_inside "Loading nvm..."
+  warwick_source "$NVM_DIR/nvm.sh"
+  warwick_source "$NVM_DIR/bash_completion"
 fi
