@@ -16,23 +16,24 @@ then
 fi
 
 export WSL_HOME="$(wslpath $WIN_HOME_RAW)"
-export WSL_DIR_DOWNLOADS="${HOME}/Downloads"
-export WSL_DIR_SRC="${HOME}/src"
-export WSL_DIR_DESKTOP="${HOME}/Desktop"
-export WARWICK_OPTION_PREFER_GIT_WIN=""
+export WARWICK_OPTION_PREFER_GIT_WIN="" # Fill to enable
+export WARWICK_OPTION_PREFER_SSH_WIN="" # Fill to enable
 
+export WSL_DIR_DOWNLOADS="${HOME}/Downloads"
 if [ ! -d "$WSL_DIR_DOWNLOADS" ]
 then
 	echo "  Linking Downloads folder to $HOME"
 	ln -s "${WSL_HOME}/Downloads" "${WSL_DIR_DOWNLOADS}"
 fi
 
+export WSL_DIR_DESKTOP="${HOME}/Desktop"
 if [ ! -d "$WSL_DIR_DESKTOP" ]
 then
 	echo "  Linking Desktop folder to $HOME"
 	ln -s "${WSL_HOME}/Desktop" "${WSL_DIR_DESKTOP}"
 fi
 
+export WSL_DIR_SRC="${HOME}/src"
 if [ ! -d "${WSL_DIR_SRC}" ]
 then
 	source_path="${WSL_HOME}/src"
@@ -78,43 +79,33 @@ warwick_wsl_sync_git()
 	done
 }
 
+# -----------------------------------------------------------------------------
+#                                                                           SSH
+#
 # Copies all SHH folder content from user /home to %UserHome% so Git on Windows
 # has access to the same keys.
 # Usage: warwick_wsl_sync_ssh
-warwick_wsl_sync_ssh()
-{
-	WIN_SSH_DIR="${WSL_HOME}/.ssh"
-	echo "  Copying '.ssh' from '${HOME}' to '${WSL_HOME}"
-	if [ ! -d "${WIN_SSH_DIR}" ]
-	then
-		mkdir "${WIN_SSH_DIR}"
-	fi
-	cp "${HOME}/.ssh/"* "${WIN_SSH_DIR}/"
-}
 
-warwick_wsl_git_motd()
-{
-	echo "  Using git.exe with configuration from:"
-	git config --list --show-origin \
-		| cut -f1 \
-		| sed 's/file://' \
-		| sort \
-		| uniq \
-		| sed 's/^/    - /'
-}
-
-if [ ! -d "${WSL_HOME}/.ssh" ]
+if [ ! -d "${WSL_HOME}/.ssh" ] && [ -n "$WARWICK_OPTION_PREFER_GIT_WIN" ]
 then
+	warwick_wsl_sync_ssh()
+	{
+		WIN_SSH_DIR="${WSL_HOME}/.ssh"
+		echo "  Copying '.ssh' from '${HOME}' to '${WSL_HOME}"
+		if [ ! -d "${WIN_SSH_DIR}" ]
+		then
+			mkdir "${WIN_SSH_DIR}"
+		fi
+		cp "${HOME}/.ssh/"* "${WIN_SSH_DIR}/"
+	}
+
 	# If "%UserHome%/.ssh" doesn't exist, copy it from /home
 	warwick_wsl_sync_ssh
 fi
 
-if [ ! -f "${WSL_HOME}/.gitignore_global" ]
-then
-	# If "%UserHome%/.gitignore_global" doesn't exist, copy it from /home
-	warwick_wsl_sync_git
-fi
-
+# -----------------------------------------------------------------------------
+#                                                                 Git (Windows)
+#
 # Prefer Windows binary of Git for performance reasons, this will replace any
 # existing `git` command call for `git.exe`. This will cause confusion as the
 # configuration loaded will be the one from the %UserHome%.
@@ -126,9 +117,26 @@ then
 	{
 		git.exe "$@"
 	}
+
+	if [ ! -f "${WSL_HOME}/.gitignore_global" ]
+	then
+		# If "%UserHome%/.gitignore_global" doesn't exist, copy it from /home
+		warwick_wsl_sync_git
+	fi
+
+	warwick_wsl_git_motd()
+	{
+		echo "  Using git.exe with configuration from:"
+		git config --list --show-origin \
+			| cut -f1 \
+			| sed 's/file://' \
+			| sort \
+			| uniq \
+			| sed 's/^/    - /'
+	}
+	warwick_wsl_git_motd
 fi
 
-warwick_wsl_git_motd
 
 
 # -----------------------------------------------------------------------------
