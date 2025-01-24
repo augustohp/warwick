@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# Prefer `ssh.exe` inside WSL, harnessing 1password integration for Windows,
+# while delegating the actual connection to the original `ssh` command on other
+# systems.
+#
+# Part of https://github.com/augustohp/warwick
+
+
+
+# Check if running inside WSL
+
+if grep -qi Microsoft /proc/version
+then
+    # Use ssh.exe inside WSL
+    ssh.exe "$@"
+else
+    # Use the original ssh command otherwise
+    ssh "$@"
+fi

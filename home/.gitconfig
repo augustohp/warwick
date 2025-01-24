@@ -4,6 +4,7 @@
 [core]
     editor = vim
     excludesfile = ~/.gitignore_global
+	sshCommand = ssh-win-or-not
 [color]
     ui = true
     branch = auto
