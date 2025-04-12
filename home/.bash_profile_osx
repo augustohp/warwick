@@ -47,7 +47,7 @@ brew_missing()
 	local dep="$1"
 
 	if [ ! -d "$HOMEBREW_CHECK_CACHEDIR" ]
-	then 
+	then
 		mkdir "$HOMEBREW_CHECK_CACHEDIR"
 	fi
 
@@ -73,10 +73,10 @@ brew_missing()
 brew_dependency()
 {
 	local dependecies="$@"
-	
+
 	for dep in $dependecies
 	do
-		if brew_missing "$dep" 
+		if brew_missing "$dep"
 		then
 			echo "    Installing $dep..."
 			brew install --quiet "$dep"
@@ -137,6 +137,7 @@ fi
 #                                                                         Casks
 
 casks="docker visual-studio-code vivaldi 1password"
+casks=""
 for cask in $casks
 do
 	if brew_missing $cask
