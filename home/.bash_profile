@@ -26,7 +26,7 @@ fi
 if [ "$(uname)" == "Darwin" ];
 then
     warwick_source ~/.bash_profile_osx
-elif grep -q 'microsoft' /proc/version
+elif [ -f /proc/version ] && [ grep -q 'microsoft' /proc/version ]
 then
 	warwick_source ~/.bash_profile_wsl
 elif uname -a | grep -q aarch64
