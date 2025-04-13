@@ -71,7 +71,7 @@ fi
 zoxide_feed()
 {
 	for d in $(history | grep 'cd' | awk '{ print $3}' | sort | uniq)
-	do 
+	do
 		test -d "$d" && { zoxide add "$d"; }
 	done
 

@@ -11,18 +11,31 @@
     diff = auto
     status = auto
 [color "branch"]
-    current = green
-    local = blue bold
-    remote = blue
+    current = "#a6e3a1"
+    local = "#89b4fa" bold
+    remote = "#cba6f7"
+[color "decorate"]
+    head = "#f5e0dc"
+    branch = bold "#f2cdcd"
+    tag= "#89b4fa"
+    remoteBranch = "#cba6f7"
+    grafted = "#cdd6f4"
 [color "diff"]
-    meta = yellow
-    frag = magenta
-    old = red
-    new = green
+    meta = "#f5e0dc"
+    meta = "#f5c2e7"
+    func = "#89b4fa"
+    frag = "#89b4fa"
+    context = "#cdd6f4"
+    old = "#f38ba8"
+    new = "#a6e3a1"
 [color "status"]
-    added = green
-    changed = yellow
-    untracked = cyan
+    header = "#6c7086"
+    added = "#a6e3a1"
+    changed = "#f9e2af"
+    untracked = "#b4befe"
+    branch = "#f5c2e7"
+    # Because the phrase "Detached HEAD" isn't unnerving enough
+    nobranch = bold ul "#f38ba8"
 [alias]
     co = checkout
     s = status --short
