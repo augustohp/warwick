@@ -55,6 +55,8 @@
     path = ~/.gitconfig_kobold
 [includeIf "gitdir:**/src/crawly.com.br/"]
     path = ~/.gitconfig_crawly
+[includeIf "gitdir:**/src/picpay.com/"]
+    path = ~/.gitconfig_picpay
 [merge]
 	tool = vimdiff
 [diff]
