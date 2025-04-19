@@ -11,3 +11,4 @@ phpunit.xml
 .phpactor.json
 *.vimsession
 .aider*
+CLAUDE.md
