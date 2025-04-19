@@ -11,7 +11,7 @@ echo "  Loading ~/.bash_profile_debian ..."
 
 expected_locale=en_US.UTF-8
 set_locale=0
-if ! grep -q ^${expected_locale} /etc/locale.gen
+if ! grep -q "^${expected_locale}" /etc/locale.gen
 then
     echo "Locale $expected_locale not generated."
     read -rp 'Generate it? (y/n) ' yesno
