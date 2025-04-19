@@ -51,8 +51,8 @@
 	helper = cache --timeout=86400
 [commit]
 	verbose = true
-[includeIf "gitdir:**/src/kobold.com.br/"]
-    path = ~/.gitconfig_kobold
+[includeIf "gitdir:**/src/**/kobold.com.br/"]
+    path = ~/.gitconfig_kob
 [includeIf "gitdir:**/src/crawly.com.br/"]
     path = ~/.gitconfig_crawly
 [includeIf "gitdir:**/src/picpay.com/"]
