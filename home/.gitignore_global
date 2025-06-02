@@ -12,3 +12,4 @@ phpunit.xml
 *.vimsession
 .aider*
 CLAUDE.md
+.vscode
