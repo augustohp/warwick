@@ -10,7 +10,7 @@
 
 # Check if running inside WSL
 
-if grep -qi Microsoft /proc/version
+if grep -qi Microsoft /proc/version 2> /dev/null
 then
     # Use ssh.exe inside WSL
     ssh.exe "$@"
