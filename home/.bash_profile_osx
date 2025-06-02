@@ -13,6 +13,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 #                                                                      Homebrew
 # https://brew.sh/
 
+warwick_verbose_inside "Homebrew installed?"
 HOMEBREW_NO_INSTALL_CLEANUP=1
 HOMEBREW_NO_ENV_HINTS=1
 HOMEBREW_CHECK_CACHEDIR="${HOME}/.homebrew-check"
@@ -29,14 +30,19 @@ then
 fi
 
 # [homebrew][] bash-completion support
-old_bash_completion_script="$(brew --prefix)/etc/bash_completion"
-new_bash_completion_script="$(brew --prefix)/etc/profile.d/bash_completion.sh"
-if [ -f "$old_bash_completion_script" ]
+if [ "$TERM_PROGRAM" != "vscode" ]
 then
-	source "$old_bash_completion_script"
-elif [ -f "$new_bash_completion_script" ]
-then
-	source "$new_bash_completion_script"
+	# Avoid loading inside vscode, making it very slow and breaking agentic AI usage
+	warwick_verbose_inside "Bash completion ..."
+	old_bash_completion_script="$BREW_PREFIX/etc/bash_completion"
+	new_bash_completion_script="$BREW_PREFIX/etc/profile.d/bash_completion.sh"
+	if [ -f "$new_bash_completion_script" ]
+	then
+		source "$new_bash_completion_script"
+	elif [ -f "$old_bash_completion_script" ]
+	then
+		source "$old_bash_completion_script"
+	fi
 fi
 
 # Prefer brew binaries
@@ -56,7 +62,6 @@ brew_missing()
 	then
 		return 1
 	fi
-
 
 	if brew list "$dep" 2> /dev/null
 	then
@@ -87,6 +92,7 @@ brew_dependency()
 # -----------------------------------------------------------------------------
 #                                                                      Hide BSD
 
+warwick_verbose_inside "Favor GNU instead of BSD ..."
 brew_dependency gawk gsed grep
 
 PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
@@ -102,10 +108,18 @@ alias ls="ls -G"
 #                                                                        Python
 # https://docs.brew.sh/Homebrew-and-Python
 
+warwick_verbose_inside "Python ..."
+
 BREW_PYTHON_PATH="$(brew --prefix python)/libexec/bin"
 PATH="$BREW_PYTHON_PATH:$PATH"
 
 export PATH
+
+uv_source="$HOME/.local/bin/env"
+if [ -f "$uv_source" ]
+then
+	source "${uv_source}"
+fi
 
 # -----------------------------------------------------------------------------
 #                                                                       PHPBrew
@@ -120,6 +134,7 @@ fi
 
 # -----------------------------------------------------------------------------
 #                                                                  Google Cloud
+warwick_verbose_inside "GCP ..."
 
 brew_dependency python3 google-cloud-sdk
 
@@ -136,6 +151,7 @@ fi
 # -----------------------------------------------------------------------------
 #                                                                         Casks
 
+warwick_verbose_inside "Casks ..."
 casks="docker visual-studio-code vivaldi 1password"
 casks=""
 for cask in $casks
@@ -149,6 +165,7 @@ done
 # -----------------------------------------------------------------------------
 #                                                                           k8s
 
+warwick_verbose_inside "k8s ..."
 brew_dependency kubectx
 
 if brew_missing kubetail
