@@ -246,17 +246,18 @@ git_branch_delete_interactive ()
 	local main_branch
 
 	main_branch="$(git_main_or_master_branch)"
-	files=$(git branch \
+	current_branch="$(wg_current_branch)"
+	files=$(git branch | wg_trim_leading_whitespaces | wg_remove_leading_star \
 		| fzf --multi \
 			--layout reverse \
 			--border \
 			--border-label-pos 2 \
-			--border-label "📁 Choosing files ..." \
+			--border-label "✂️  Choose branches to delete ..." \
 			--prompt "git branch -D" \
 			--header "TAB (selects file) / ENTER (submits) / CTRL-C (quits)" \
-			--preview-label "git-diff" \
+			--preview-label "Commits on branch ${current_branch}.." \
 			--preview-label-pos 2 \
-			--preview 'git diff --no-ext-diff --color=always -- {}' )
+			--preview 'git log --oneline ${current_branch}..{}' )
 
 	for f in $files
 	do
