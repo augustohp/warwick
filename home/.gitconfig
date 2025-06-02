@@ -1,10 +1,10 @@
 [user]
     name = Augusto Pascutti
-	email = augusto.hp@gmail.com
+    email = augusto.hp@gmail.com
 [core]
     editor = vim
-    excludesfile = ~/.gitignore_global
-	sshCommand = ssh-win-or-not
+    excludesFile = ~/.gitignore_global
+    sshCommand = ssh-win-or-not
 [color]
     ui = true
     branch = auto
@@ -59,11 +59,11 @@
 [rebase]
     autosquash = true
 [http]
-	postBuffer = 65536000
+    postBuffer = 65536000
 [credential]
-	helper = cache --timeout=86400
+    helper = cache --timeout=86400
 [commit]
-	verbose = true
+    verbose = true
 [includeIf "gitdir:**/src/**/kobold.com.br/"]
     path = ~/.gitconfig_kob
 [includeIf "gitdir:**/src/crawly.com.br/"]
@@ -71,13 +71,13 @@
 [includeIf "gitdir:**/src/picpay.com/"]
     path = ~/.gitconfig_picpay
 [merge]
-	tool = vimdiff
+    tool = vimdiff
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [difftool]
-	prompt = false
+    prompt = false
 [filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
