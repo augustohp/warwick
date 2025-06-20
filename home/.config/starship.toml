@@ -1,13 +1,12 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](peach)\
-[](bg:peach fg:peach)\
+[](sapphire)\
 $directory\
-[](bg:yellow fg:peach)\
+[](bg:lavender fg:sapphire)\
 $git_branch\
 $git_status\
-[ ](fg:yellow)\
+[ ](fg:lavender)\
 $line_break\
 $character"""
 
@@ -45,7 +44,7 @@ style_root = "bg:red fg:crust"
 format = '[ $user]($style)'
 
 [directory]
-style = "bg:peach fg:crust"
+style = "bg:sapphire fg:black"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -59,12 +58,12 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:yellow"
-format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
+style = "bg:lavender"
+format = '[[ $symbol $branch ](fg:crust bg:lavender)]($style)'
 
 [git_status]
-style = "bg:yellow"
-format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+style = "bg:lavender"
+format = '[[($all_status$ahead_behind )](fg:crust bg:lavender)]($style)'
 
 [nodejs]
 symbol = ""
