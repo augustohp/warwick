@@ -9,6 +9,10 @@
 echo "  Loading ~/.bash_profile_osx ...";
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
+warwick_verbose_inside "Locale..."
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # -----------------------------------------------------------------------------
 #                                                                      Homebrew
 # https://brew.sh/
