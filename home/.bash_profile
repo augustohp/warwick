@@ -58,26 +58,6 @@ then
 	warwick_source "${HOMESHICK_DIR}/homeshick.sh"
 fi
 
-# Zoxide -----------------------------------------------------------------------
-# https://github.com/ajeetdsouza/zoxide
-
-if [ -n "$(command -v zoxide)" ]
-then
-	eval "$(zoxide init bash)"
-fi
-
-# Will add recent directories to zoxide database
-# Usage: zoxide_feed
-zoxide_feed()
-{
-	for d in $(history | grep 'cd' | awk '{ print $3}' | sort | uniq)
-	do
-		test -d "$d" && { zoxide add "$d"; }
-	done
-
-	find "$HOME" -type d -name ".git" -exec zoxide add "$d" \;
-}
-
 # Ruby Version manager (RVM) --------------------------------------------------
 # https://rvm.io/
 
