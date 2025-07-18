@@ -69,18 +69,6 @@ then
 	warwick_source "$RVM_SCRIPT"
 fi
 
-# FZF (Fuzzy finder) ----------------------------------------------------------
-# https://github.com/junegunn/fzf
-
-FZF_SCRIPT="$HOME/.fzf.bash"
-if [ -f "$FZF_SCRIPT" ]
-then
-	warwick_verbose "Loading fzf..."
-	# Disables CTRL-T to point to FZF
-	export FZF_CTRL_T_COMMAND=
-	warwick_source "$FZF_SCRIPT"
-fi
-
 # Go ---------------------------------------------------------------------------
 # https://go.dev
 
