@@ -14,6 +14,7 @@ fi
 
 alias g="git"
 alias ga="git_add_interactive"
+alias gr="git_restore_interactive"
 alias gs="git s"
 alias gd="git diff"
 alias gb="git branch"
@@ -225,13 +226,40 @@ git_add_interactive ()
 			--border-label-pos 2 \
 			--border-label "📁 Choosing files ..." \
 			--prompt "git add" \
-			--header "TAB (selects file) / ENTER (submits) / CTRL-C (quits)" \
+			--header "TAB (select file) / ENTER (select current and submit) / CTRL-C (quit)" \
 			--preview-label "git-diff" \
 			--preview-label-pos 2 \
 			--preview 'git diff --no-ext-diff --color=always -- {}' )
 	for f in $files
 	do
 		git add "$f"
+	done
+}
+
+
+##
+# Displays a menu of changed failes to be selected and
+# restored interactively. Uses `fzf`.
+##
+# Usage: git_restore_interactive
+git_restore_interactive ()
+{
+	local files
+
+	files=$(git_unstaged_files \
+		| fzf --multi \
+			--layout reverse \
+			--border \
+			--border-label-pos 2 \
+			--border-label "📁 Choosing files ..." \
+			--prompt "git restore" \
+			--header "TAB (select file) / ENTER (select current and submit) / CTRL-C (quit)" \
+			--preview-label "git-diff" \
+			--preview-label-pos 2 \
+			--preview 'git diff --no-ext-diff --color=always -- {}' )
+	for f in $files
+	do
+		git restore -- "$f"
 	done
 }
 
