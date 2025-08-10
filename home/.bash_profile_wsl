@@ -4,7 +4,7 @@
 # Part of http://github.com/augustohp/warwick
 # vim: ft=sh:
 
-echo "  Loading ~/.bash_profile_wsl ..."
+warwick_verbose "Loading ~/.bash_profile_wsl ..."
 
 WIN_HOME_RAW="$(cmd.exe /c "<nul set /p=%UserProfile%" 2>/dev/null)"
 if [ -z "$WIN_HOME_RAW" ]
@@ -16,20 +16,18 @@ then
 fi
 
 export WSL_HOME="$(wslpath $WIN_HOME_RAW)"
-export WARWICK_OPTION_PREFER_GIT_WIN="" # Fill to enable
-export WARWICK_OPTION_PREFER_SSH_WIN="" # Fill to enable
 
 export WSL_DIR_DOWNLOADS="${HOME}/Downloads"
 if [ ! -d "$WSL_DIR_DOWNLOADS" ]
 then
-	echo "  Linking Downloads folder to $HOME"
+	warwick_verbose_inside "Linking Downloads folder to $HOME"
 	ln -s "${WSL_HOME}/Downloads" "${WSL_DIR_DOWNLOADS}"
 fi
 
 export WSL_DIR_DESKTOP="${HOME}/Desktop"
 if [ ! -d "$WSL_DIR_DESKTOP" ]
 then
-	echo "  Linking Desktop folder to $HOME"
+	warwick_verbose_inside "Linking Desktop folder to $HOME"
 	ln -s "${WSL_HOME}/Desktop" "${WSL_DIR_DESKTOP}"
 fi
 
@@ -41,7 +39,7 @@ then
 	then
 		mkdir "${source_path}"
 	fi
-	echo "  Linking 'src' folder to $HOME"
+	warwick_verbose_inside "Linking 'src' folder to $HOME"
 	ln -s "${source_path}" "${WSL_DIR_SRC}"
 fi
 
@@ -52,97 +50,22 @@ fi
 alias ls="ls -GhcS --color=auto"
 
 # -----------------------------------------------------------------------------
-#                                                                           Git
-# Multiple fixes to make Git usable under WSL.
-
-# Copies Git configuration files from the User's /home directory to %UserHome%
-# on Windows.
-# Usage: warwick_wsl_sync_git
-warwick_wsl_sync_git()
-{
-	for config in "${HOME}"/.git*
-	do 
-		config_filename="$(basename $config)"
-		existing_configuration="${WSL_HOME}/${config_filename}" 
-		if [ -f "$existing_configuration" ]
-		then
-			echo "  Backing up '${existing_configuration}' to '${existing_configuration}.bkp'..."
-			mv "${existing_configuration}" "${existing_configuration}.bkp"
-		fi
-		echo "  Copying '${config_filename}' from '${HOME}' to '${WSL_HOME}'"
-		if [ -d "$config" ]
-		then
-			cp -r "$config" "${WSL_HOME}/${config_filename}"
-		else
-			cp "$config" "${WSL_HOME}/${config_filename}"
-		fi
-	done
-}
-
-# -----------------------------------------------------------------------------
-#                                                                           SSH
+#                                                                        NeoVim
 #
-# Copies all SHH folder content from user /home to %UserHome% so Git on Windows
-# has access to the same keys.
-# Usage: warwick_wsl_sync_ssh
+# NeoVim for WSL is more easily installed on a custom directory, using pre-built
+# binaries. This makes sure that directory is on our PATH.
 
-if [ ! -d "${WSL_HOME}/.ssh" ] && [ -n "$WARWICK_OPTION_PREFER_GIT_WIN" ]
+neovim_dir="/opt/nvim-linux-x86_64"
+if [ -d "$neovim_dir" ]
 then
-	warwick_wsl_sync_ssh()
-	{
-		WIN_SSH_DIR="${WSL_HOME}/.ssh"
-		echo "  Copying '.ssh' from '${HOME}' to '${WSL_HOME}"
-		if [ ! -d "${WIN_SSH_DIR}" ]
-		then
-			mkdir "${WIN_SSH_DIR}"
-		fi
-		cp "${HOME}/.ssh/"* "${WIN_SSH_DIR}/"
-	}
-
-	# If "%UserHome%/.ssh" doesn't exist, copy it from /home
-	warwick_wsl_sync_ssh
+	warwick_verbose_inside "Neovim"
+	export PATH="$neovim_dir/bin:$PATH"
 fi
-
-# -----------------------------------------------------------------------------
-#                                                                 Git (Windows)
-#
-# Prefer Windows binary of Git for performance reasons, this will replace any
-# existing `git` command call for `git.exe`. This will cause confusion as the
-# configuration loaded will be the one from the %UserHome%.
-# Usage: git <subcommand> [options]
-
-if [ -n "$WARWICK_OPTION_PREFER_GIT_WIN" ]
-then
-	git()
-	{
-		git.exe "$@"
-	}
-
-	if [ ! -f "${WSL_HOME}/.gitignore_global" ]
-	then
-		# If "%UserHome%/.gitignore_global" doesn't exist, copy it from /home
-		warwick_wsl_sync_git
-	fi
-
-	warwick_wsl_git_motd()
-	{
-		echo "  Using git.exe with configuration from:"
-		git config --list --show-origin \
-			| cut -f1 \
-			| sed 's/file://' \
-			| sort \
-			| uniq \
-			| sed 's/^/    - /'
-	}
-	warwick_wsl_git_motd
-fi
-
-
 
 # -----------------------------------------------------------------------------
 #                                                                      X Server
 # 
-echo "  Export X-server (X410) configuration..."
+warwick_verbose_inside "X-server (X410) config"
 export DISPLAY="$(ip route | grep default | awk '{print $3; exit;}'):0.0"
 export LIBGL_ALWAYS_INDIRECT=1
 export GDK_SCALE=1

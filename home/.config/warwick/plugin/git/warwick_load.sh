@@ -3,10 +3,103 @@
 
 warwick_verbose "Git"
 
-if [ -n "$WSL_HOME" ]
+# Configurations
+export WARWICK_OPTION_PREFER_GIT_WIN="" # Fill to enable
+export WARWICK_OPTION_PREFER_SSH_WIN="" # Fill to enable
+
+# -----------------------------------------------------------------------------
+#                                                                   WSL support
+# Windows's WSL needs some care to work in a sane way. Using the same GPG and SSH
+# keys, for example. Or the same Git configuration between host (Windows) and
+# container (WSL).
+
+if [ ! -d "${WSL_HOME}/.ssh" ] && [ -n "$WARWICK_OPTION_PREFER_GIT_WIN" ]
 then
-	warwick_verbose_inside 'Using ssh.exe to integrate with 1password'
+	##
+	# Copies all SHH folder content from user /home to %UserHome% so Git on Windows
+	# has access to the same keys.
+	##
+	# Usage: warwick_wsl_sync_ssh
+	warwick_wsl_sync_ssh()
+	{
+		WIN_SSH_DIR="${WSL_HOME}/.ssh"
+		warwick_verbose_inside "Copying '.ssh' from '${HOME}' to '${WSL_HOME}"
+		if [ ! -d "${WIN_SSH_DIR}" ]
+		then
+			mkdir "${WIN_SSH_DIR}"
+		fi
+		cp "${HOME}/.ssh/"* "${WIN_SSH_DIR}/"
+	}
+
+	# If "%UserHome%/.ssh" doesn't exist, copy it from /home
+	warwick_wsl_sync_ssh
+fi
+
+
+##
+# Copies Git configuration files from the User's /home directory to %UserHome%
+# on Windows.
+##
+# Usage: warwick_wsl_sync_git
+warwick_wsl_sync_git()
+{
+	for config in "${HOME}"/.git*
+	do
+		config_filename="$(basename "$config")"
+		existing_configuration="${WSL_HOME}/${config_filename}"
+		if [ -f "$existing_configuration" ]
+		then
+			warwick_verbose_inside "Backing up '${existing_configuration}' to '${existing_configuration}.bkp'..."
+			mv "${existing_configuration}" "${existing_configuration}.bkp"
+		fi
+		warwick_verbose_inside "Copying '${config_filename}' from '${HOME}' to '${WSL_HOME}'"
+		if [ -d "$config" ]
+		then
+			cp -r "$config" "${WSL_HOME}/${config_filename}"
+		else
+			cp "$config" "${WSL_HOME}/${config_filename}"
+		fi
+	done
+}
+
+if [ -n "$WARWICK_OPTION_PREFER_GIT_WIN" ]
+then
+	##
+	# Prefer Windows binary of Git for performance reasons, this will replace any
+	# existing `git` command call for `git.exe`. This will cause confusion as the
+	# configuration loaded will be the one from the %UserHome%.
+	##
+	# Usage: git <subcommand> [options]
+	git()
+	{
+		git.exe "$@"
+	}
+
+	if [ ! -f "${WSL_HOME}/.gitignore_global" ]
+	then
+		# If "%UserHome%/.gitignore_global" doesn't exist, copy it from /home
+		warwick_wsl_sync_git
+	fi
+
+	warwick_wsl_git_motd()
+	{
+		echo "  Using git.exe with configuration from:"
+		git config --list --show-origin \
+			| cut -f1 \
+			| sed 's/file://' \
+			| sort \
+			| uniq \
+			| sed 's/^/    - /'
+	}
+	warwick_wsl_git_motd
+elif [ -n "$WSL_HOME" ]
+then
+	# This uses `ssh.exe` when on Windows so the SSH Agent on Windows
+	# can communicate with 1password and share/sign with its public and
+	# private keys.
+	warwick_verbose_inside 'ssh=ssh.exe (1password)'
 	alias ssh="ssh.exe"
+	alias ssh-add="ssh-add.exe"
 fi
 
 # -----------------------------------------------------------------------------
