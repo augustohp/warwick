@@ -70,6 +70,8 @@
     path = ~/.gitconfig_crawly
 [includeIf "gitdir:**/src/picpay.com/"]
     path = ~/.gitconfig_picpay
+[includeIf "gitdir:**/src/yak-shaver.club/"]
+    path = ~/.gitconfig_yakshaver
 [merge]
     tool = vimdiff
 [diff]
