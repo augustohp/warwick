@@ -179,3 +179,17 @@ then
 	brew install kubetail
 fi
 
+
+# -----------------------------------------------------------------------------
+#                                                                        Podman
+
+warwick_verbose_inside "podman ..."
+brew_dependency podman podman-compose
+
+if ! brew_missing podman
+then
+	alias docker=podman
+	alias docker-compose=podman-compose
+
+fi
+
