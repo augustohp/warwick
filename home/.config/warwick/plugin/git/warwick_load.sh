@@ -307,10 +307,17 @@ git_unstaged_files ()
 # Displays a menu of changed files to be selected and added
 # interactively. Uses `fzf`
 ##
-# Usage: git_add_interactive
+# Usage: git_add_interactive [path1] [path2]...
 git_add_interactive ()
 {
+	local arguments="$@"
 	local files
+
+	if [ $# -gt 0 ]
+	then
+		git add "$arguments"
+		return $?
+	fi
 
 	files=$(git_unstaged_files \
 		| fzf --multi \
