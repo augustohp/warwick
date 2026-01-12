@@ -56,6 +56,7 @@ if [ -d "${HOMESHICK_DIR}" ]
 then
 	warwick_verbose "Loading Homeshick..."
 	warwick_source "${HOMESHICK_DIR}/homeshick.sh"
+	warwick_source "${HOMESHICK_DIR}/completions/homeshick-completion.bash"
 fi
 
 # Ruby Version manager (RVM) --------------------------------------------------
