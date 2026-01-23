@@ -193,3 +193,17 @@ then
 
 fi
 
+# -----------------------------------------------------------------------------
+#                                                                   OpenJDK 17
+
+warwick_verbose_inside "OpenJDK ..."
+brew_dependency openjdk@17
+
+if ! brew_missing openjdk@17
+then
+	OPENJDK_PATH="$(brew --prefix openjdk@17)"
+	PATH="$OPENJDK_PATH/bin:$PATH"
+	CPPFLAGS="-I$OPENJDK_PATH/include"
+	export PATH CPPFLAGS
+fi
+
