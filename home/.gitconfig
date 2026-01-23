@@ -1,3 +1,7 @@
+; ~/.gitconfig
+;
+; Part of https://github.com/augustohp/warwick
+
 [user]
     name = Augusto Pascutti
     email = augusto.hp@gmail.com
@@ -68,7 +72,7 @@
     path = ~/.gitconfig_kob
 [includeIf "gitdir:**/src/crawly.com.br/"]
     path = ~/.gitconfig_crawly
-[includeIf "gitdir:**/src/picpay.com/"]
+[includeIf "gitdir:**/src/picpay.com/**"]
     path = ~/.gitconfig_picpay
 [includeIf "gitdir:**/src/yak-shaver.club/"]
     path = ~/.gitconfig_yakshaver
