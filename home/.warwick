@@ -62,6 +62,12 @@ warwick_verbose_inside()
 }
 
 # -----------------------------------------------------------------------------
+# Brew stubs (overridden in .bash_profile_osx)
+
+brew_missing() { return 1; }      # Assume installed
+brew_dependency() { return 0; }   # No-op
+
+# -----------------------------------------------------------------------------
 # Loading other files
 
 export WARWICK_MODULE_ENTRYPOINT="warwick_load.sh"
