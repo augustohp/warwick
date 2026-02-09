@@ -76,6 +76,8 @@
     path = ~/.gitconfig_picpay
 [includeIf "gitdir:**/src/yak-shaver.club/"]
     path = ~/.gitconfig_yakshaver
+[includeIf "gitdir:**/src/azi.com.br/**"]
+    path = ~/.gitconfig_azi
 [merge]
     tool = vimdiff
 [diff]
