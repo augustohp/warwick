@@ -129,7 +129,7 @@ alias gfo="git fetch origin"
 alias gbd="git_branch_delete_interactive"
 
 wg_trim_leading_whitespaces() { sed 's/^[\t ]*//'; }
-wg_remove_leading_star () { sed 's/^[\t \*]*//'; }
+wg_remove_leading_branch_prefixes () { sed 's/^[\t \*\+]*//'; }
 wg_filter_remote_branches_without_local_copies () { grep -v ' -> '; }
 wg_remove_prefix () { sed "s/^${1}//"; }
 
@@ -141,7 +141,7 @@ wg_current_branch ()
 {
 	git branch \
 		| grep '^* ' \
-		| wg_remove_leading_star
+		| wg_remove_leading_branch_prefixes
 }
 
 ##
@@ -191,7 +191,7 @@ git_choose_local_branch ()
 
 	wg_stash_silent
 	git branch \
-		| wg_remove_leading_star \
+		| wg_remove_leading_branch_prefixes \
 		| fzf --no-multi \
 			--height="35%" \
 			--header "TAB (selects file) / ENTER (submits) / CTRL-C (quits)" \
@@ -243,7 +243,7 @@ git_main_or_master_branch()
 	git branch \
 		| grep -e main -e master \
 		| head -n 1 \
-		| wg_remove_leading_star
+		| wg_remove_leading_branch_prefixes
 }
 
 ##
@@ -375,7 +375,7 @@ git_branch_delete_interactive ()
 
 	main_branch="$(git_main_or_master_branch)"
 	current_branch="$(wg_current_branch)"
-	files=$(git branch | wg_trim_leading_whitespaces | wg_remove_leading_star \
+	files=$(git branch | wg_trim_leading_whitespaces | wg_remove_leading_branch_prefixes \
 		| fzf --multi \
 			--layout reverse \
 			--border \
