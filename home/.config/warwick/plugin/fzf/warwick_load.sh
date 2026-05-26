@@ -37,42 +37,47 @@ find_git_root_or_cwd()
 	git rev-parse --show-toplevel 2> /dev/null || echo "$PWD"
 }
 
-# Finds all directories in the given root directory, excluding certain paths.
-# Usage: find_dirs <root_directory>
+# Finds directories users might want to enter.
+# Usage: find_dirs <root_directory> <max depth>
 find_dirs()
 {
 	local root="$1"
+	local depth="$2"
 
 	if [ -z "$root" ]
 	then
 		echo "Error: No root directory provided!" >&2
-		#exit 2
+		return 2
+	fi
+	if [ -z "$depth" ]
+	then
+		echo "Error: No depth provided!" >&2
+		return 3
 	fi
 
 	find "$root" \
+		-maxdepth "$depth" \
 		-type d \
 		-not -path '*/\.*' \
 		-not -path '*/node_modules/*' \
 		-not -path '*/vendor/*' \
 		-not -path '*/.git/*' \
 		-not -path '*/.idea/*' \
-		-not -path '*/.vscode/*'
+		-not -path '*/.vscode/*' \
+		-print 
 }
 
 # -----------------------------------------------------------------------------
 # cd
 
+# Search for a directory and "cd" to it
+# Usage: fd [depth levels]
 fd()
 {
-	local root="${1}"
-	local dir
+	local depth="${1:-2}"
+	local dir root
 
-	if [ -z "$root" ]
-	then
-		root="$(find_git_root_or_cwd)"
-	fi
-
-	dir=$(find "$root" -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-	cd "$dir"
+	root="$(find_git_root_or_cwd)"
+	dir=$(find_dirs "$root" "$depth" | fzf +m) \
+	&& cd "$dir"
 }
