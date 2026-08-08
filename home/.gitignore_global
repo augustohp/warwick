@@ -13,6 +13,7 @@ phpunit.xml
 .aider*
 CLAUDE.md
 .claude
+.codex
 .vscode
 .PURPOSE.md
 .worktree
