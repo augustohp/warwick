@@ -1,4 +1,5 @@
 # ~/.bash_profile
+# shellcheck shell=bash
 #
 # Author Augusto Pascutti <augusto.hp@gmail.com>
 # Part of http://github.com/augustohp/warwick
@@ -9,7 +10,10 @@
 echo 'Loading warwick ...'
 
 # Non-interactive shells skip this =D
-[ -z "$PS1" ] && return
+case $- in
+	*i*) ;;
+	*) return ;;
+esac
 
 export PS1="\W $ "
 source "$HOME/.warwick"
@@ -26,7 +30,7 @@ fi
 if [ "$(uname)" == "Darwin" ];
 then
     warwick_source ~/.bash_profile_osx
-elif [ -f /proc/version ] && [ -n "$(grep 'microsoft' /proc/version)" ]
+elif [ -f /proc/version ] && grep -q 'microsoft' /proc/version
 then
 	warwick_source ~/.bash_profile_wsl
 elif uname -a | grep -q aarch64
