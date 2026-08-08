@@ -91,3 +91,11 @@
     smudge = git-lfs smudge -- %f
 [init]
     defaultBranch = main
+[credential "https://github.com"]
+	helper =
+	helper = cache --timeout=86400
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = cache --timeout=86400
+	helper = !gh auth git-credential
