@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+started_at=$SECONDS
+missing_packages=()
+for package in bc shellcheck
+do
+	if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null \
+		| grep -q '^install ok installed$'
+	then
+		missing_packages+=("$package")
+	fi
+done
+
+if ((${#missing_packages[@]} > 0))
+then
+	echo "Installing system packages: ${missing_packages[*]}"
+	sudo apt-get update
+	sudo apt-get install -y "${missing_packages[@]}"
+else
+	echo 'System packages already installed.'
+fi
+echo "System packages ready in $((SECONDS - started_at))s."
+
+started_at=$SECONDS
+homeshick_dir="$HOME/.homesick/repos/homeshick"
+if [ ! -f "$homeshick_dir/homeshick.sh" ]
+then
+	echo 'Installing Homeshick...'
+	mkdir -p "$(dirname "$homeshick_dir")"
+	git clone --depth 1 https://github.com/andsens/homeshick.git "$homeshick_dir"
+else
+	echo 'Homeshick already installed.'
+fi
+mkdir -p "$HOME/.local/bin"
+ln -sfn "$homeshick_dir/bin/homeshick" "$HOME/.local/bin/homeshick"
+echo "Homeshick ready in $((SECONDS - started_at))s."
