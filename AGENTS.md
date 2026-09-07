@@ -65,3 +65,13 @@ Pi/ARM Linux while allowing guarded platform-specific behavior.
 - Check shell syntax without sourcing startup files that can mutate the host.
 - Verify identity-specific Git changes with `git config --show-origin`.
 - Secret-scan staged content and report checks that could not be run.
+
+## Documentation
+
+- Keep each README focused on current behavior, installation, ownership, and
+  the few commands a person needs to operate the castle.
+- Prefer explicit, inspectable installation steps over opaque shortened URLs.
+- Do not publish performance claims without recording the command and
+  environment used to measure them.
+- Make first-run guidance discoverable from the tool itself when possible;
+  documentation should explain the workflow, not be required to discover it.

@@ -1,14 +1,49 @@
-# 🏰 My own fucking castle
+# Warwick
 
-To be used with [homesick][], you can [one-line install][1] with:
+Personal terminal configuration managed as a [Homeshick][] castle. It provides
+shared shell behavior, platform profiles, Git settings, tmux, Starship, and
+small command-line utilities.
 
-	$ bash <(curl -Ls https://git.io/fNMTH)
+Vim and Neovim configuration lives separately in [warwick-vim][]. Reusable AI
+tooling lives in [warwick-llm][]. Work and consulting configuration stays in
+private, identity-specific castles.
 
-The command above open an editor with a list of _castles_ to install.
+## Install
 
-> [!NOTE]
-> I've made an effort for this to be used by anybody but don't expect
-> any support.
+Install Homeshick, load it in the current shell, then clone this castle:
 
-[1]: https://gist.github.com/augustohp/0b0f96249e399d4ec731830280fbe776
-[homesick]: https://github.com/technicalpickles/homesick
+```sh
+git clone https://github.com/andsens/homeshick.git "$HOME/.homesick/repos/homeshick"
+. "$HOME/.homesick/repos/homeshick/homeshick.sh"
+homeshick clone git@github.com:augustohp/warwick.git
+```
+
+Homeshick links files under `home/` to the equivalent paths under `$HOME`.
+Inspect local changes with
+`git -C "$HOME/.homesick/repos/warwick" status --short`, check synchronization
+with the remote using `homeshick check warwick`, and refresh links with
+`homeshick link warwick`.
+
+The configuration supports macOS, WSL2, headless Linux, and Raspberry Pi/ARM
+Linux. Platform-specific behavior is capability-gated; shell startup should not
+require every optional tool.
+
+## Repository layout
+
+| Path | Responsibility |
+| --- | --- |
+| `home/.bash_profile` | Shared shell startup orchestration |
+| `home/.bash_profile_*` | Platform-specific setup |
+| `home/.bash_environment` | Interactive shell preferences and aliases |
+| `home/.config/warwick/plugin/` | Capability-oriented shell modules |
+| `home/.config/tmux/` | tmux configuration |
+| `home/.config/starship.toml` | Prompt configuration |
+| `home/.gitconfig` | Shared Git defaults |
+| `home/bin/` | Small user commands |
+
+This is a personal environment published for reference. It is not a supported
+distribution; review scripts before linking them into your home directory.
+
+[Homeshick]: https://github.com/andsens/homeshick
+[warwick-vim]: https://github.com/augustohp/warwick-vim
+[warwick-llm]: https://github.com/augustohp/warwick-llm
