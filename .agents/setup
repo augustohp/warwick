@@ -4,7 +4,7 @@ set -euo pipefail
 
 started_at=$SECONDS
 missing_packages=()
-for package in bc shellcheck
+for package in bc ca-certificates curl shellcheck
 do
 	if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null \
 		| grep -q '^install ok installed$'
@@ -22,6 +22,58 @@ else
 	echo 'System packages already installed.'
 fi
 echo "System packages ready in $((SECONDS - started_at))s."
+
+started_at=$SECONDS
+go_version="1.27.1"
+go_root="$HOME/.local/lib/go-$go_version"
+go_marker="$go_root/.warwick-install-complete"
+case "$(uname -m)" in
+	x86_64)
+		go_arch="amd64"
+		go_checksum="63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445"
+		;;
+	aarch64)
+		go_arch="arm64"
+		go_checksum="3450b45a3f9ee8568792736a5c5e70a1f2e9b36c35a8f74958c03e51d7d92bec"
+		;;
+	*)
+		echo "Unsupported Go architecture: $(uname -m)" >&2
+		exit 1
+		;;
+esac
+
+if [ ! -x "$go_root/bin/go" ] || [ ! -f "$go_marker" ]
+then
+	echo "Installing Go $go_version..."
+	mkdir -p "$HOME/.local/lib"
+	go_archive="$(mktemp)"
+	go_stage="$(mktemp -d "$HOME/.local/lib/.go-$go_version.XXXXXX")"
+	cleanup_go_install() {
+		rm -f "$go_archive"
+		if [ -n "${go_stage:-}" ]
+		then
+			rm -rf "$go_stage"
+		fi
+	}
+	trap cleanup_go_install EXIT
+	curl -fsSL "https://go.dev/dl/go${go_version}.linux-${go_arch}.tar.gz" \
+		-o "$go_archive"
+	echo "$go_checksum  $go_archive" | sha256sum -c -
+	tar -xzf "$go_archive" -C "$go_stage" --strip-components=1
+	"$go_stage/bin/go" version >/dev/null
+	touch "$go_stage/.warwick-install-complete"
+	rm -rf "$go_root"
+	mv "$go_stage" "$go_root"
+	go_stage=""
+	rm -f "$go_archive"
+	trap - EXIT
+else
+	echo "Go $go_version already installed."
+fi
+mkdir -p "$HOME/.local/bin"
+ln -sfn "$go_root/bin/go" "$HOME/.local/bin/go"
+ln -sfn "$go_root/bin/gofmt" "$HOME/.local/bin/gofmt"
+echo "Go ready in $((SECONDS - started_at))s."
 
 started_at=$SECONDS
 homeshick_dir="$HOME/.homesick/repos/homeshick"
